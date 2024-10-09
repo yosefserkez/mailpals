@@ -41,6 +41,9 @@ Rails.application.routes.draw do
     end
     resources :questions
   end
+
+  get "impersonate/:user_id", to: "impersonations#create", as: :impersonate
+
   # resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -1,18 +1,18 @@
 class AnswerPolicy < ApplicationPolicy
   def index?
-    record.club.is_member?(user) || user.super_admin?
+    record.club.is_member?(user)
   end
 
   def update?
-    record.club.can_manage?(user) || record.member.user == user || user.super_admin?
+    record.club.can_manage?(user) || record.member.user == user
   end
 
   def show?
-    record.club.is_member?(user) || record.member.user == user || user.super_admin?
+    record.club.is_member?(user) || record.member.user == user
   end
 
   def destroy?
-    record.club.is_owner?(user) || record.member.user == user || user.super_admin?
+    record.club.is_owner?(user) || record.member.user == user
   end
 
   def edit?
