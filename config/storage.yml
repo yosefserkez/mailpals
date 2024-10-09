@@ -47,4 +47,4 @@ hetzner:
 mirror:
   service: Mirror
   primary: local
-  mirrors: [ hetzner, cloudflare ]
+  mirrors: [ cloudflare ]
