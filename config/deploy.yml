@@ -17,7 +17,11 @@ servers:
 # Set ssl: false if using something like Cloudflare to terminate SSL (but keep host!).
 proxy:
   ssl: true
-  host: mailpals.cc
+  hosts:
+    - mailpals.cc
+    - www.mailpals.cc
+    - mailpals.net
+    - www.mailpals.net
 
 # Credentials for your image host.
 registry:

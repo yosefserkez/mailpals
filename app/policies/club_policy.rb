@@ -2,19 +2,19 @@ class ClubPolicy < ApplicationPolicy
   # See https://actionpolicy.evilmartians.io/#/writing_policies
 
   def index?
-    record.is_member?(user)
+    record.is_member?(user) || user.super_admin?
   end
 
   def update?
-    record.can_manage?(user)
+    record.can_manage?(user) || user.super_admin?
   end
 
   def show?
-    record.is_member?(user)
+    record.is_member?(user) || user.super_admin?
   end
 
   def destroy?
-    record.is_owner?(user)
+    record.is_owner?(user) || user.super_admin?
   end
 
   def edit?
@@ -22,7 +22,7 @@ class ClubPolicy < ApplicationPolicy
   end
 
   def manage?
-    record.can_manage?(user)
+    record.can_manage?(user) || user.super_admin?
   end
 
   def create?

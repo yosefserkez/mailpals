@@ -44,7 +44,7 @@ class User < ApplicationRecord
     events.create! action: "password_changed"
   end
 
-  after_update if: [:verified_previously_changed?, :verified?] do
+  after_update if: [ :verified_previously_changed?, :verified? ] do
     events.create! action: "email_verified"
   end
 
@@ -87,14 +87,14 @@ class User < ApplicationRecord
 
   def self.generate_username(fullname)
     ActiveSupport::Inflector.transliterate(fullname) # change ñ => n
-                            .split('@')
+                            .split("@")
                             .first
                             .downcase              # only lower case
                             .strip                 # remove spaces around the string
-                            .gsub(/[^a-z]/, '_')   # any character that is not a letter or a number will be _
-                            .gsub(/\A_+/, '')      # remove underscores at the beginning
-                            .gsub(/_+\Z/, '')      # remove underscores at the end
-                            .gsub(/_+/, '_')       # maximum an underscore in a row
+                            .gsub(/[^a-z]/, "_")   # any character that is not a letter or a number will be _
+                            .gsub(/\A_+/, "")      # remove underscores at the beginning
+                            .gsub(/_+\Z/, "")      # remove underscores at the end
+                            .gsub(/_+/, "_")       # maximum an underscore in a row
   end
 
   def self.create_user(params)
@@ -107,6 +107,10 @@ class User < ApplicationRecord
     else
       user
     end
+  end
+
+  def super_admin?
+    email == "yosefserkez@gmail.com"
   end
 
   private
