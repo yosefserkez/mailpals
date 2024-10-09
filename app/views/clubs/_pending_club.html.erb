@@ -1,0 +1,27 @@
+<article class="border-red-500">
+  <div class="flex justify-between">
+          <span class="text-sm text-red-500 %>">
+            Invited
+          </span>
+  </div>
+  <div class="">
+    <hgroup>
+      <h2 class="my-2"><%= club.title %></h2>
+      <p class="m-0 text-xs">Owned by: <%= club.owner_name %></p>
+      <p>
+        <%= pluralize(club.members.count, 'member') %>
+        <% if club.issues.count.positive? %>
+          | <%= club.issues&.in_progress&.first&.title %>
+        <% end %>
+      </p>
+    </hgroup>
+  </div>
+  <div class="mt-2">
+  </div>
+  <div class="flex justify-start gap-4">
+    <%= button_to "Join Club", accept_invitation_path(club), method: :post, class: "self-end font-bold text-blue-500" %>
+    |
+    <%= button_to "Decline", deny_invitation_path(club), method: :delete, class: "self-end font-bold text-red-500", data: { turbo_confirm: "Are you sure you want to decline this invitation?" } %>
+  </div>
+
+</article>

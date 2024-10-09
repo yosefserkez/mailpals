@@ -1,0 +1,15 @@
+<% text ||= 'Submit'
+   cancel_path ||= nil
+   cancel_action ||= nil %>
+
+<div class="flex space-x-4 my-4">
+   <%= form.submit text, data: {
+    controller: "submit-button",
+    # action: "submit-button#disable" TODO: fix this on turbo stream (ie. submit question form)
+  }, class: 'button success' %>
+  <% if cancel_path %>
+    <%= link_to 'Cancel', cancel_path, class: 'button minimal' %>
+  <% elsif cancel_action %>
+    <%= button_tag 'Cancel', type: 'button', data: { action: cancel_action }, class: 'button minimal' %>
+  <% end %>
+</div>

@@ -1,0 +1,33 @@
+<div id="<%= dom_id club %>" class="frame p-4 pt-2 flex flex-col justify-between gap-4">
+  <% if Current.user.member_of?(club) %>
+  <div>
+      <div class="flex justify-between items-end">
+          <span class="text-sm <%= club.active ? 'text-[var(--success-color)]' : 'text-[var(--warning-color)]' %>">
+            <%= club.active ? 'Active' : 'Inactive' %>
+          </span>
+        <%= link_to "…", edit_club_path(club), class: "text-lg font-bold text-gray-500" %>
+      </div>
+      <div class="">
+        <hgroup>
+          <h2 class=""><%= club.title %></h2>
+          <% if club.issues&.in_progress&.count&.positive? %>
+            <p class="text-xs mt-2">
+              Next Delivery: <br><%= club.issues&.in_progress&.first&.deliver_at&.in_time_zone(Time.zone)&.strftime("%a %b %d, %Y at %I:%M %p %Z") %>
+              </p>
+          <% end %>
+          <p class="text-sm mt-2">
+            <%= pluralize(visible_members(club).count, 'member') %>
+            <% if club.issues.count.positive? %>
+              <%= club.issues.in_progress.any? ? "• #{club.issues&.in_progress&.first&.title}" : "" %>
+            <% end %>
+          </p>
+        </hgroup>
+      </div>
+      <div class="mt-2">
+      </div>
+    </div>
+    <%= link_to "View Details", club, role: "button", class: "justify-end button text-center" %>
+  <% else %>
+    <%= render partial: "clubs/pending_club", locals: { club: club } %>
+  <% end %>
+</div>

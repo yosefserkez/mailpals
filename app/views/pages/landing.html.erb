@@ -1,0 +1,90 @@
+<% hide_footer %>
+
+<div class="container mx-auto">
+  <div class="text-center mb-12">
+    <%= image_tag 'mailpals_logo.png', alt: 'MailPals Logo', class: 'mx-auto mb-8 w-full max-w-96' %>
+    <div class="frame p-6">
+      <h1 class="text-3xl font-bold">Private group newsletters for friends, families & teams</h1>
+      <p class="my-4">
+        Stay in touch, grow closer together, and discover things you never knew with the people in your life.
+      </p>
+      <% if current_user %>
+        <%= link_to 'My Clubs', clubs_path, class: 'button success', style: 'font-size: 1.5rem;' %>
+      <% else %>
+        <%= link_to 'Start for Free', sign_up_path, class: 'button success', style: 'font-size: 1.5rem;' %>
+        <div class="my-4">or</div>
+        <%= link_to 'Login', sign_in_path, class: 'button outline success w-1/2 mx-auto', style: '' %>
+      <% end %>
+    </div>
+  </div>
+
+  <%= component 'section', id: 'features', title: '' do %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="text-center">
+        <%= icon 'message-circle-question',class: 'mx-auto mb-4 w-24' %>
+        <h3 class="text-xl font-bold mb-2">Pick inquisitive questions</h3>
+        <p class="subtitle">Allow us to generate thoughtful questions or add your own.</p>
+      </div>
+      <div class="text-center">
+        <%= icon 'circle',class: 'mx-auto mb-4 w-24' %>
+        <h3 class="text-xl font-bold mb-2">Invite your inner circle</h3>
+        <p class="subtitle">We use email, no apps! Just add your people and we'll take care of the rest.</p>
+      </div>
+      <div class="text-center">
+        <%= icon 'mail-open',class: 'mx-auto mb-4 w-24' %>
+        <h3 class="text-xl font-bold mb-2">Share an experience</h3>
+        <p class="subtitle">Get everyone's bite-sized stories in a fun and beautiful email.</p>
+      </div>
+    </div>
+  <% end %>
+
+  <%= component 'section', id: 'use-cases', title: 'Use Cases' do %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="flex items-start space-x-4">
+        <%= icon 'baby', class: 'w-6 h-6 mt-1 flex-shrink-0' %>
+        <p><strong>Families:</strong> Siblings and parents across the world stay connected and grow closer together.</p>
+      </div>
+      <div class="flex items-start space-x-4">
+        <%= icon 'boxes', class: 'w-6 h-6 mt-1 flex-shrink-0' %>
+        <p><strong>Teams:</strong> Teammates living busy lives stay in touch by asking and answering thoughtful questions.</p>
+      </div>
+      <div class="flex items-start space-x-4">
+        <%= icon 'school', class: 'w-6 h-6 mt-1 flex-shrink-0' %>
+        <p><strong>Universities:</strong> Old friends from college keep up with each others' lives, share photos, and give support.</p>
+      </div>
+      <div class="flex items-start space-x-4">
+        <%= icon 'book-heart', class: 'w-6 h-6 mt-1 flex-shrink-0' %>
+        <p><strong>Clubs & Masterminds:</strong> Buddies from a meetup share thoughts, opinions, and personal goals with each other.</p>
+      </div>
+      <div class="flex items-start space-x-4">
+        <%= icon 'hand-metal', class: 'w-6 h-6 mt-1 flex-shrink-0' %>
+        <p><strong>Friends:</strong> Close friends stay in the loop by sharing personal updates, challenges, and goals.</p>
+      </div>
+      <div class="flex items-start space-x-4">
+        <%= icon 'hand-heart', class: 'w-6 h-6 mt-1 flex-shrink-0' %>
+        <p><strong>Communities:</strong> Communities of like-minded individuals share stories, memes, and life updates.</p>
+      </div>
+    </div>
+  <% end %>
+
+  <%= component 'section', id: 'faq', title: 'FAQ' do %>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-xl font-bold mb-2">What is MailPals and how does it work?</h3>
+        <p>MailPals is a fun way to have a group newsletter without the work. You pick the questions for your group to answer, then MailPals creates a fun and beautiful newsletter with everyone's replies. All you need is to do is invite your people!</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-2">What are the questions and who chooses them?</h3>
+        <p>We crafted a set of questions designed to spark fun and thoughtful replies. The questions range from updates about your week to thoughts on identity, life stories, and personal philosophies. Each newsletter cycle, we'll suggest a few questions for you. You can always swap questions or add your own.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-2">How do I invite people to my newsletter?</h3>
+        <p>Once you've created your club, you can invite people by email. Just add their email addresses and we'll send them an invitation to join your club. They'll get an email with a link to join your club and start receiving your newsletters. You can also share your clubs invite link.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-2">How do I respond to someone's answer?</h3>
+        <p>MailPals is all about connecting with your people, so don't be shy about reaching out to them. The intention is to open up conversations and keep relationships strong. You are encouraged to reach out to your pals with the medium of your choice, be it email, phone, or in person to continue the conversation!</p>
+      </div>
+    </div>
+  <% end %>
+</div>

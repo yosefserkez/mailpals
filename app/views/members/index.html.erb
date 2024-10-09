@@ -1,0 +1,46 @@
+<div class="w-full">
+  <h3 class="mt-2">Members</h3>
+  <div id="members-table-body">
+    <%= render @members %>
+  </div>
+
+  <% if allowed_to?(:manage?, @club) %>
+    <div class="">
+      <%= render 'shared/modal',
+                 modal_id: 'new-member-modal',
+                 button_classes: 'button secondary mt-4',
+                 button_text: '+ Add Member',
+                 title: 'Add New Member',
+                 content: render('form', member: @club.members.build) %>
+    </div>
+
+    <div class="my-12">
+      <h3 class="mt-2">Invite Link</h3>
+      <p class="subtitle">You can share your MailPal's unique invite link with your group. Anyone who has this link can join
+        your MailPal, so keep it safe.</p>
+      <div class="flex">
+        <input type="text" value="<%= @club.invite_code_url %>" class="flex-grow border !rounded-r-none px-3 py-2 bg-gray-100" readonly>
+        <button onclick="copyInviteLink()" class="button secondary !rounded-l-none">Copy</button>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="my-12">
+    <h3 class="mt-2">Display Name</h3>
+    <p class="subtitle">Your MailPal display name will appear next your responses and comments. This name will only be used
+      in this MailPal. You can set a different display name for each MailPal you belong to.</p>
+    <%= form_with(model: [@club, @club.membership(current_user)], local: true) do |form| %>
+      <%= form.text_field :display_name, class: "w-full border rounded px-3 py-2 mb-2" %>
+      <%= component 'submit_button', form: form, text: 'Save', cancel_path: club_issues_path(@club) %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    function copyInviteLink() {
+        var copyText = document.querySelector('input[readonly]');
+        copyText.select();
+        document.execCommand("copy");
+        alert("Copied the invite link: " + copyText.value);
+    }
+</script>

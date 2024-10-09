@@ -1,0 +1,51 @@
+<div class="theme--<%= @issue.club.theme || 'base' %> md:max-w-2xl md:mx-auto pt-15 overflow-auto">
+  <div class="w-full md:max-w-[650px] md:mx-auto mb-8 overflow-visible">
+    <h1 class="my-1"><%= @issue.club.title %></h1>
+    <h3 class=""><%= @issue.title %> | <%= @issue.deliver_at.strftime("%B %d, %Y") %></h4>
+    <hr class="my-1">
+    <p class="text-sm m-0 secondary-color">Made by <%= @issue.club.members.active.pluck(:display_name).to_sentence %></p>
+
+    <% @issue.sections_questions_answers(nil, @issue.club.visible_members(@member || @issue.club.membership(current_user))).each do |section| %>
+      <div class="mt-10">
+        <% if section[:key] != "questions" %>
+          <h2 class="font-semibold"><%= t("clubs.sections.#{section[:key]}.title") %></h3>
+        <% end %>
+
+        <% section[:questions].each do |qa| %>
+          <div class="">
+            <% if qa[:question].section == "questions" %>
+              <h3 class="font-semibold"><%= qa[:question].prompt %></h3>
+            <% end %>
+
+            <% qa[:answers].each do |answer| %>
+              <div class="mt-5">
+                <% if answer.images.attached? %>
+                  <% answer.images.each do |image| %>
+                    <div class="mt-5 frame border-[var(--primary-color)] overflow-hidden">
+                      <%= image_tag url_for(image), alt: "Image from #{answer.member.display_name}", class: "max-w-full h-auto align-middle inline-block" %>
+                      <p class="p-5 m-0 text-sm"><strong><%= answer.member.display_name %></strong><%= "<span class='font-normal'> #{answer.content}</span>" if answer.content.present? %></p>
+                    </div>
+                  <% end %>
+                <% else %>
+                  <p class="p-5 m-0 frame text-sm border-[var(--primary-color)]"><strong><%= answer.member.display_name %></strong><span class="font-normal"><%= " #{answer.content}" if answer.content.present? %></span></p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @issue.club.upcoming_issue.present? %>
+      <div class="mt-10 text-center">
+        The next issue of <a href="<%= club_url(@issue.club) %>" class="italic underline underline-offset-2"><%= @issue.club.title %></a> will be delivered
+        on <strong><%= @issue.club.upcoming_issue.deliver_at.strftime("%B %d, %Y") %></strong>
+      </div>
+    <% end %>
+    <div class="mt-10 text-center">
+      <%= link_to root_url do %>
+        <%= image_tag 'mailpals_logo_rect.png', alt: 'MailPals Logo', class: 'w-24 mx-auto' %>
+      <% end %>
+    </div>
+  </div>
+</div>

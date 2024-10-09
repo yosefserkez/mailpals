@@ -1,0 +1,12 @@
+.theme--blocky {
+    --primary-color: #000;
+    --secondary-color: #585858;
+    --font-color: #000;
+    --bg-color: #fff;
+    --heading-color: #818cab;
+}
+
+.theme--blocky .frame {
+    border-right: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}

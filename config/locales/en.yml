@@ -1,0 +1,82 @@
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
+en:
+  hello: "Hello world"
+  clubs:
+    options:
+      title:
+        title: "Name"
+        description: "The name of your MailPals club."
+      theme:
+        title: "Theme"
+        description: "Choose a visual theme for your MailPals club."
+      sections:
+        title: "Sections"
+        description: "Choose which sections you want to include in your MailPals."
+      delivery_frequency:
+        title: "Delivery Frequency"
+        description: "How often do you want to receive your MailPals?"
+      delivery_time:
+        title: "Delivery Time"
+        description: "What time of day do you want to receive your MailPals?"
+      delivery_day:
+        title: "Delivery Day"
+        description: "What day of the week do you want to receive your MailPals?"
+      timezone:
+        title: "Timezone"
+        description: "What timezone do you want to base your MailPals in?"
+      default_number_questions:
+            title: "Default number of generated questions (1-5)"
+            description: "Set the number of default questions that will be automatically suggested in each Issue of your MailPals. You can customize each Issue before it's sent out, and while it's live."
+      active:
+        title: "Active"
+        description: "Pausing your MailPals will delete all existing issues and prevent new ones from being generated."
+    sections:
+      questions:
+        title: "🤔 Questions"
+        description: "Answer the group questions."
+      photo_wall:
+        title: "📸 Photo Wall"
+        description: "Share a photo or video for everyone to see."
+      one_good_thing:
+        title: "🌟 One Good Thing"
+        description: "Share something positive that recently happened."
+      shout_outs:
+        title: "📣 Shout-outs"
+        description: "Say thanks or congrats to someone in the group!"
+      phone_a_friend:
+        title: "☎️ Phone a Friend"
+        description: "Ask for help on anything, big or small."
+      check_it_out:
+        title: "👀 Check It Out"
+        description: "Got an article, video, or song you want to share?"
+      announcements:
+        title: "📢 Announcements"
+        description: "Share important information with the group."

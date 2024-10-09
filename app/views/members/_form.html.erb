@@ -1,0 +1,25 @@
+<%= form_with(model: [@club, member], local: false, class: "grid gap-2", data: { controller: "reset-form", action: "turbo:submit-end->modal#close turbo:submit-end->reset-form#reset" }) do |form| %>
+  <div class="grid">
+    <%= form.label :display_name, class: "text-left mb-2" %>
+    <%= form.text_field :display_name %>
+  </div>
+
+  <div class="grid">
+    <%= form.label :user_email, class: "text-left mb-2" %>
+    <%= form.email_field :user_email, disabled: member.persisted?, class: member.persisted? ? 'text-gray-500 bg-gray-100' : '' %>
+  </div>
+
+  <div class="grid">
+    <%= form.label :role, class: "text-left mb-2" %>
+    <%= form.select :role, Member.roles.keys.map { |role| [role.titleize, role] }, {} %>
+  </div>
+
+  <div class="grid hidden">
+    <%= form.label :hidden_member_ids, "Hidden Members", class: "text-left mb-2" %>
+    <%= form.collection_select :hidden_member_ids, @club.members.where.not(id: member.id), :id, :display_name, 
+                            { selected: member.hidden_members.pluck(:id) }, 
+                            { multiple: true, class: "dropdown w-full", data: { controller: "tom-select" } } %>
+  </div>
+
+  <%= component 'submit_button', form: form, text: 'Save', cancel_action: "click->modal#close" %>
+<% end %>

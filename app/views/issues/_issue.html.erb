@@ -1,0 +1,76 @@
+<div id="<%= dom_id issue %>" class="frame p-4 pt-2 flex flex-col justify-between gap-4">
+  <div>
+    <div class="flex justify-between items-end">
+      <span class="text-sm <%= issue.in_progress? ? 'text-[var(--success-color)]' : 'text-[var(--warning-color)]' %>">
+        <%= 'In Progress' if issue.in_progress? %>
+        <%= 'Upcoming' if issue.upcoming? %>
+        <%= 'Sent' if issue.sent? %>
+      </span>
+
+
+       <div data-controller="dropdown" class="relative">
+        <button data-action="click->dropdown#toggle" class="text-lg font-bold">…</button>
+        <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+          <%= link_to "Edit Issue", edit_club_issue_path(issue.club, issue), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" unless issue.sent? || !allowed_to?(:update?, issue) %>
+          <%= render 'shared/modal',
+                 modal_id: 'delete-issue-modal',
+                 button_classes: 'block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
+                 button_text: 'Delete Issue',
+                 title: 'Delete Issue',
+                 required_input: 'DELETE',
+                 required_input_message: 'Type DELETE to confirm',
+                 confirm_button: link_to("Delete Issue", club_issue_path(issue.club, issue), method: :delete, class: 'button outline danger', data: { turbo_method: :delete }) do %>
+        <p>Are you sure you want to delete this issue?</p>
+          <p class="text-[var(--danger-color)]">This action cannot be undone.</p>
+        <% end if allowed_to?(:destroy?, issue)%>
+       <%= render 'shared/modal',
+                 modal_id: 'deliver-issue-modal',
+                 button_classes: 'block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
+                 button_text: 'Deliver Issue',
+                 title: 'Deliver Issue',
+                 confirm_button: link_to("Confirm Delivery", club_issue_deliver_path(issue.club, issue), method: :post, class: 'button secondary warning', data: { turbo_method: :post }) do %>
+        <p>Are you sure you want to deliver this issue now?</p>
+        <p>This will send the issue to all club members immediately.</p>
+      <% end if allowed_to?(:update?, issue) && !issue.sent? %>
+             <%= render 'shared/modal',
+                 modal_id: 'deliver-issue-modal',
+                 button_classes: 'block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
+                 button_text: 'Re-deliver Issue',
+                 title: 'Re-deliver Issue',
+                 confirm_button: link_to("Confirm Re-delivery", club_issue_deliver_path(issue.club, issue), method: :post, class: 'button secondary warning', data: { turbo_method: :post }) do %>
+        <p>Are you sure you want to re-deliver this issue now?</p>
+        <p>This will re-send the issue to all club members immediately.</p>
+      <% end if allowed_to?(:update?, issue) && issue.sent? %>
+      <%= render 'shared/modal',
+                 modal_id: 'see-issue-modal',
+                 button_classes: 'block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
+                 button_text: 'Preview Issue',
+                 title: 'Preview Issue',
+                 confirm_button: link_to('Preview Issue', club_issue_path(issue.club, issue), class: 'button secondary warning' ) do %>
+        <p>Are you sure you want to see this issue now?</p>
+        <p>It's more fun to wait until the delivery after everyone's responded.</p>
+      <% end unless issue.sent? %>
+      <%= link_to "View Issue", club_issue_path(issue.club, issue), class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" if issue.sent? %>
+    </div>
+</div>
+
+    </div>
+    <div class="">
+      <hgroup>
+        <h2 class=""><%= issue.title %></h2>
+        <p class="text-xs mt-2">
+          <% if issue.sent? %>
+            Sent on:<br> <%= I18n.l(issue.sent_at, format: "%a %b %d, %Y at %I:%M %p %Z") %>
+          <% elsif issue.in_progress? %>
+            Delivers on:<br> <%= I18n.l(issue.deliver_at, format: "%a %b %d, %Y at %I:%M %p %Z") %>
+          <% elsif issue.upcoming? %>
+            Open for replies on:<br> <%= I18n.l(issue.open_at, format: "%a %b %d, %Y at %I:%M %p %Z") %>
+          <% end %>
+        </p>
+      </hgroup>
+    </div>
+    </div>
+    <%= link_to "Reply Now", club_issue_new_reply_path(issue.club, issue), class: "justify-end button text-center #{issue.in_progress? ? '' : 'secondary'}" if issue.waiting_for_reply?(issue.club.membership(current_user))%>
+    <%= link_to "Update Reply", club_issue_edit_reply_path(issue.club, issue), class: "justify-end button text-center" if issue.answered_by?(issue.club.membership(current_user)) && !issue.sent? %>
+    <%= link_to "View", club_issue_path(issue.club, issue), class: "justify-end button text-center" if issue.sent? %>
+</div>

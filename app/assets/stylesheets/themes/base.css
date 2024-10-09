@@ -1,0 +1,229 @@
+:root {
+    --primary-color: #000;
+    --secondary-color: #585858;
+    --font-color: #000;
+    --bg-color: #fff;
+    --success-color: #1f8d44;
+    --danger-color: #df0f0f;
+    --warning-color: #df810f;
+    --info-color: #0f8dcf;
+    --error-color: #df0f0f;
+    --border-radius: 4px;
+}
+
+.secondary-color {
+    color: var(--secondary-color);
+}
+
+.frame {
+    background-color: var(--bg-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+input,
+select,
+textarea,
+[type=text],
+[type=email],
+[type=password],
+[type=number],
+[type=date],
+[type=datetime-local],
+[type=time],
+[type=search],
+[type=tel],
+[type=url],
+.button {
+    border-radius: var(--border-radius);
+}
+
+select {
+    padding: 5px 10px;
+    padding-right: 30px;
+}
+
+input.button,
+button.button,
+.button {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.button:hover {
+    opacity: 0.9;
+    background-color: var(--secondary-color);
+}
+
+.button.outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    outline-style: unset;
+    border: 1px solid var(--primary-color);
+}
+
+.button.outline:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+}
+
+/* Danger button styles */
+.button.danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+    color: var(--bg-color);
+}
+
+.button.danger:hover {
+    color: var(--danger-color);
+}
+
+.button.danger.outline {
+    background-color: transparent;
+    color: var(--danger-color);
+}
+
+.button.danger.outline:hover {
+    background-color: var(--danger-color);
+    color: var(--bg-color);
+}
+
+/* Warning button styles */
+.button.warning {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: var(--bg-color);
+}
+
+.button.warning.outline {
+    background-color: transparent;
+    color: var(--warning-color);
+}
+
+.button.warning.outline:hover {
+    background-color: var(--warning-color);
+    color: var(--bg-color);
+}
+
+.button:disabled,
+.button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.button.lame {
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    opacity: 0.8;
+    border: unset;
+}
+
+.button.lame:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    opacity: 1;
+}
+
+.button.minimal {
+    padding: 0;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: unset;
+    /* text-decoration: underline; */
+    text-underline-offset: 3px;
+}
+
+.button.minimal:hover {
+    background-color: none;
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+.button.success:hover {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    color: var(--bg-color);
+}
+
+.input {
+    border: 1px solid var(--primary-color);
+    padding: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: 100%;
+}
+
+strong {
+    color: var(--primary-color);
+}
+
+/* Checkbox styles */
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    position: relative;
+}
+
+input[type="checkbox"]:checked::after {
+    font-size: 14px;
+    color: var(--bg-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input[type="checkbox"]:hover {
+    border-color: var(--secondary-color);
+}
+
+input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--primary-color);
+    background-color: var(--bg-color);
+}
+
+input[type="checkbox"]:checked:hover {
+    background-color: var(--primary-color);
+    opacity: 0.5;
+}
+
+input[type="checkbox"]:checked:focus {
+    background-color: var(--primary-color);
+}
+
+/* Style for the label associated with the checkbox */
+label:has(input[type="checkbox"]) {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+label:has(input[type="checkbox"]):hover {
+    color: var(--primary-color);
+}
+
+.subtitle {
+    font-size: 0.8em;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+}

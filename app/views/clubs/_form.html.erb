@@ -1,0 +1,48 @@
+<%= form_with(model: club, class: "space-y-6") do |form| %>
+  <% club_options.each do |key, option| %>
+    <div>
+      <h3><%= option[:title] %></h3>
+      <p class="subtitle"><%= option[:description] %></p>
+
+      <% if option[:field_type] == :toggle_switch %>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <%= form.check_box key, checked: club.send(key), class: "" %>
+        </label>
+      <% elsif option[:field_type] == :collection_check_boxes %>
+        <%= form.collection_check_boxes key, option[:options], :first, :last do |b| %>
+          <p class="flex items-start my-2">
+            <%= b.check_box(class: "mr-2 h-5 w-5", checked: club.active_sections.include?(b.value)) %>
+            <%= b.label(class: "flex flex-col text-sm") do %>
+              <%= b.object.last[:title] %>
+              <i class="text-xs text-[var(--secondary-color)]"><%= b.object.last[:description] %></i>
+            <% end %>
+          </p>
+          <%= render_sub_options(form, b.object.last[:sub_options]) if b.object.last[:sub_options].present? %>
+        <% end %>
+      <% elsif [:select, :collection_select, :time_zone_select].include?(option[:field_type]) %>
+        <%= form.send(option[:field_type], key, option[:options], {}, {}) %>
+      <% else %>
+        <%= form.send(option[:field_type], key) %>
+      <% end %>
+      <%= render_sub_options(form, option[:sub_options]) if option[:sub_options].present? %>
+    </div>
+  <% end %>
+
+
+  <div class="mt-6 flex justify-between">
+    <%= component 'submit_button', form: form, cancel_path: club.persisted? ? club_issues_path(club) : clubs_path  %>
+    <%= button_tag "Delete Club", type: "button", class: "button minimal danger", onclick: "document.querySelector('[data-modal-target=\"delete-club-modal\"]').click()" if @club.persisted? %>
+  </div>
+<% end %>
+
+<%= render 'shared/modal',
+           modal_id: 'delete-club-modal',
+           button_classes: '',
+           button_text: '',
+           title: 'Delete Club',
+           required_input: 'DELETE',
+           required_input_message: 'Type DELETE to confirm',
+           confirm_button: link_to("Delete Club", @club, method: :delete, class: 'button danger', data: { turbo_method: :delete }) do %>
+  <p>Are you sure you want to delete this club?</p>
+  <p class="text-[var(--danger-color)]">This action cannot be undone.</p>
+<% end %>
