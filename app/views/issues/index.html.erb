@@ -1,0 +1,21 @@
+
+<% if @in_progress.empty? && @upcoming.empty?%>
+<div class="frame my-4 py-8">
+  <p class="text-center text-gray-500">No current issues</p>
+  <% if current_user.can_manage?(@club) && @club.inactive? %>
+    <p class="text-center text-gray-500 my-2">Your club is inactive. Go to
+      <%= link_to 'Club Settings', edit_club_path(@club), class: "underline font-bold"%> to activate it.
+    </p>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="grid gap-4 md:grid-cols-2">
+  <div class="col-span-2">
+  <%= render @in_progress %>
+  </div>
+  <h3 class="text-lg font-bold border-t col-span-2 text-left pt-4">Next Up</h3>
+  <%= render @upcoming %>
+  <h3 class="text-lg font-bold border-t col-span-2 text-left pt-4">Past Issues</h3>
+  <%= render @sent %>
+</div>

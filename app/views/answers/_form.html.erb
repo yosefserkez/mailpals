@@ -1,0 +1,58 @@
+<%= form_with(url: club_issue_answers_path(@club, @issue), class: "") do |form| %>
+  <% error_count = @answers&.select { |answer| answer.errors.any? }&.sum { |answer| answer.errors.count } %>
+  <% if error_count&.positive? %>
+    <div id="error_explanation" class="text-red-500">
+      <h2><%= pluralize(error_count, "error") %> prohibited these answers from being saved:</h2>
+      <ul>
+        <% @answers.each do |answer| %>
+          <% answer.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% @sqa.each_with_index do |sqa, _index| %>
+    <div class="mt-6">
+      <h3><%= t("#{sqa[:key]}.title", scope: [:clubs, :sections]) %></h3>
+      <p class="subtitle"><i><%= t("#{sqa[:key]}.description", scope: [:clubs, :sections]) %></i></p>
+    </div>
+
+    <% sqa[:questions].each do |question| %>
+      <% answer = question[:answers][0] %>
+      <% form.object = answer %>
+      <div class="mt-4">
+        <% if question[:question].section == "questions" %>
+          <p class="border-l-2 border-gray-300 pl-2 mb-2"><%= answer.issue_question.prompt %></p>
+        <% end %>
+        <% if answer.issue_question.kind == "select" || answer.issue_question.kind == "radio" %>
+          <% answer.issue_question.options.each do |option| %>
+            <p class="flex items-center">
+              <%= form.radio_button "answers[#{answer.issue_question_id}][content]", option, class: "mr-2 h-5 w-5" %>
+              <%= form.label "answers[#{answer.issue_question_id}][content][#{option}]", option, class: "text-lg" %>
+            </p>
+          <% end %>
+        <% elsif answer.issue_question.kind == "checkbox" %>
+          <% answer.issue_question.options.each do |option| %>
+            <p class="flex items-center">
+              <%= form.check_box "answers[#{answer.issue_question_id}][content][#{option}]", class: "mr-2 h-5 w-5" %>
+              <%= form.label "answers[#{answer.issue_question_id}][content][#{option}]", option, class: "text-lg" %>
+            </p>
+          <% end %>
+        <% elsif answer.issue_question.kind == "image" %>
+          <%= render 'shared/photo_upload', form: form, form_field: "answers[#{answer.issue_question_id}][images]" %>
+        <% else %>
+          <%= form.text_area "answers[#{answer.issue_question_id}][content]", rows: 4, placeholder: "Write something here...", value: answer.content, class: "w-full" %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="mt-6">
+    <div class="tw-grid grid-cols-3 gap-2">
+      <%= component 'submit_button', form: form, cancel_path: club_issues_path(@club)  %>
+    </div>
+    <p class="text-sm text-gray-500 mt-1">You can always edit your reply before delivery!</p>
+  </div>
+<% end %>

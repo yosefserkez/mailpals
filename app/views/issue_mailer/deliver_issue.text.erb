@@ -1,0 +1,24 @@
+<%= @issue.club.title %>
+<%= @issue.title %> | <%= @issue.deliver_at.strftime("%B %d, %Y") %>
+
+Made by: <%= @issue.club.members.active.pluck(:display_name).join(', ') %>
+
+<% @issue.sections_questions_answers(nil, @club.visible_members(@member)).each do |section| %>
+<%= t(section[:key], scope: [:clubs, :sections]) unless section[:key] == "questions" %>
+
+<% section[:questions].each do |qa| %>
+<%= qa[:question].prompt if qa[:question].section == "questions" %>
+
+<% qa[:answers].each do |answer| %>
+<%= answer.member.display_name %>: <%= answer.content if answer.content.present? %>
+<% if answer.images.attached? %>
+[Image]
+<% end %>
+
+<% end %>
+<% end %>
+<% end %>
+
+<% if @issue.club.upcoming_issue.present? %>
+The next issue of <%= @issue.club.title %> will be delivered on <%= @issue.club.upcoming_issue.deliver_at.strftime("%B %d, %Y") %>
+<% end %>

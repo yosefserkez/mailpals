@@ -1,0 +1,25 @@
+<div class="w-full">
+<%= link_to "Go back", club_issues_path(@issue.club), class: "mb-6 inline-block px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition duration-300" %>
+
+  <h1 class="font-bold text-4xl mb-6">Customize: <%= @issue.title %></h1>
+
+  <h2 class="text-2xl font-semibold mb-4">Questions</h2>
+  <p class="mb-6">These questions will appear in <%= @issue.title %> under the Questions section.</p>
+
+  <div id="issue-questions" class="space-y-4">
+    <%= render @issue_questions %>
+  </div>
+  <div class="">
+  <%= render 'shared/modal', 
+      modal_id: 'new-question-modal',
+      button_classes: 'mt-6 inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 mx-auto block',
+      button_text: '+ Add Question',
+      title: 'Add New Question',
+      content: render('form', issue_question: @issue.issue_questions.build) %>
+  </div>
+  
+  <div class="my-12">
+    <%= render 'sections_form', issue: @issue %>
+  </div>
+
+</div>

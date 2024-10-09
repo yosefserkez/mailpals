@@ -1,0 +1,55 @@
+<%
+  active_page = current_active_page
+
+  items = []
+
+  if @club.present? && @club.persisted?
+    items << { name: 'Issues', path: club_issues_path(@club), active: active_page == 'issues#index', icon: 'newspaper' }
+    items << { name: 'Members', path: club_members_path(@club), active: active_page == 'members#index', icon: 'users' }
+    items << { name: 'Settings', path: edit_club_path(@club), active: active_page == 'clubs#edit', icon: 'settings' } if allowed_to?(:manage?, @club)
+  end
+
+  items
+%>
+<% content_for :content do %>
+  <nav class="mb-8">
+    <div class="grid md:flex md:justify-between w-full items-center">
+      <% if @club.present? %>
+        <h3 class=" flex items-center gap-2 mx-auto md:mx-0">
+          <%= link_to 'Clubs', clubs_path, class: 'button minimal' %>
+          <span class="text-[var(--secondary-color)]">/</span>
+          <strong class="italic <%= @club.persisted? ? '' : 'opacity-50' %>">
+            <%= @club.persisted? ? @club.title : 'New Club' %>
+          </strong>
+        </h3>
+      <% else %>
+        <h3 class="mx-auto md:mx-0">
+          Clubs
+        </h3>
+      <% end %>
+
+      <div class="order-first md:order-last pb-4 md:pb-0 flex justify-center space-x-4 items-center text-xs">
+        <%= link_to root_path do %>
+          <%= image_tag 'mailpals_logo_rect.png', alt: 'MailPals Logo', class: 'w-24' %>
+        <% end %>
+      </div>
+    </div>
+
+    <ul class="flex space-x-4 mt-2 items-center overflow-x-scroll">
+      <% items.each do |item| %>
+        <li class="ml-0 text-left">
+          <%= link_to item[:path], class: "button minimal #{item[:active] ? 'font-black' : ''}" do %>
+            <span class="flex items-center gap-2">
+              <%= icon item[:icon], class: 'w-4 h-4' %>
+              <%= item[:name] %>
+            </span>
+          <% end %>
+        </li>
+        <span class="text-gray-500 last:hidden">|</span>
+      <% end %>
+    </ul>
+  </nav>
+  <%= yield %>
+<% end %>
+
+<%= render template: "layouts/application" %>

@@ -1,0 +1,28 @@
+<%= form_with(model: [@issue.club, @issue, issue_question], local: false, data: { controller: "reset-form random-question", action: "turbo:submit-end->modal#close turbo:submit-end->reset-form#reset", club_id: @issue.club.id }) do |form| %>
+  <% if issue_question.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(issue_question.errors.count, "error") %> prohibited this question from being saved:</h2>
+      <ul>
+        <% issue_question.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div data-random-question-target="errorMessage" class="text-red-500"></div>
+
+  <div class="grid mb-4">
+    <div class="flex gap-2 mb-2 items-center">
+      <%= form.label :prompt, class: "text-left" %>
+      <button type="button" data-action="random-question#fetchRandom" class="button lame underline">Fill Random Question</button>
+    </div>
+    <%= form.text_area :prompt, class: "", rows: 5, data: { random_question_target: "prompt" } %>
+  </div>
+
+  <div class="grid">
+    <%= form.label :asked_by, class: "text-left mb-2" %>
+    <%= form.text_field :asked_by, class: "", data: { random_question_target: "askedBy" } %>
+  </div>
+  <%= component 'submit_button', form: form, text: 'Add', cancel_action: "click->modal#close" %>
+<% end %>

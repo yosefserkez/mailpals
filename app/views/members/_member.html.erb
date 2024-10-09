@@ -1,0 +1,43 @@
+<%
+  current_member = current_user.membership(@club)
+%>
+<div id="<%= dom_id(member) %>" class="border-b py-2 flex justify-between">
+  <div class="grid text-sm">
+    <div class="text-xs text-gray-500">
+      <%= member.role.titleize %> | <%= member.status %>
+    </div>
+    <span class="font-bold">
+      <%= member.email %>
+    </span>
+    <%= member.display_name %>
+    <div class="text-xs text-gray-500 flex items-start items-center gap-1">
+    <% if allowed_to?(:manage?, @club) && member.hidden_members.any? %>
+      <span class="text-gray-500">Don't show responses from:</span>
+      <div class="p-1 bg-gray-100">
+        <%= member.hidden_members.map(&:display_name).join(', ') %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+  <% if allowed_to?(:manage?, @club) %>
+    <div class="">
+      <div data-controller="dropdown" class="relative">
+        <button data-action="click->dropdown#toggle" class="text-lg font-bold">…</button>
+        <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+          <% if !member.active? %>
+            <%= button_to "Resend invitation", resend_invitation_club_member_path(@club, member), method: :post, class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+          <% end %>
+          <%= render 'shared/modal',
+              modal_id: 'edit-member-modal',
+              button_classes: 'block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100',
+              button_text: 'Edit Member',
+              title: 'Edit Member',
+              content: render('form', member: member) %>
+            <% if current_member.owner? && member.role != "owner" %>
+            <%= button_to "Remove member", club_member_path(@club, member), method: :delete, class: "pico-unset block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100", data: { turbo_confirm: "Are you sure you want to remove this member?" } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

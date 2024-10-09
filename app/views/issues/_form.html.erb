@@ -1,0 +1,36 @@
+<%= turbo_frame_tag "issue_form" do %>
+  <%= form_with(model: issue, url: club_issue_path(issue.club, issue), method: :patch, local: true, data: { turbo: false }) do |form| %>
+    <div>
+      <h3>Issue Sections</h3>
+      <p class="subtitle">Select the sections you want to include in this issue. (Does not affect other issues)</p>
+
+      <%= form.collection_check_boxes :sections, section_options, :first, :last do |b| %>
+        <p class="flex items-center">
+          <%= b.check_box(class: "mr-2 h-5 w-5", checked: issue.section_enabled?(b.value)) %>
+          <%= b.label(class: "text-lg") do %>
+            <%= b.object.last[:title] %>
+            <i class="text-sm text-[var(--secondary-color)]"><%= b.object.last[:description] %></i>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
+
+    <div class="mt-6">
+      <h3>Issue Opening</h3>
+      <p class="subtitle">Set the Opening Date for this issue.</p>
+      <%= form.datetime_local_field :open_at, class: "" %>
+      <p class="text-sm text-gray-500 mt-1">Timezone: <%= Time.zone.name %></p>
+    </div>
+
+    <div class="mt-6">
+      <h3>Issue Delivery</h3>
+      <p class="subtitle">Set the delivery for this issue.</p>
+      <%= form.datetime_local_field :deliver_at, class: "" %>
+      <p class="text-sm text-gray-500 mt-1">Timezone: <%= Time.zone.name %></p>
+    </div>
+
+    <div class="mt-6">
+      <%= component 'submit_button', form: form, text: "Update", cancel_path: club_issues_path(issue.club) %>
+    </div>
+  <% end %>
+<% end %>

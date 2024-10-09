@@ -1,0 +1,19 @@
+<div class="w-full">
+  <h3 class="mt-2">Questions</h3>
+  <p class="subtitle">These questions will appear in <%= @issue.title %> under the Questions section.</p>
+
+  <div id="issue-questions" class="space-y-4">
+    <%= render @issue.questions %>
+  </div>
+  <div class="">
+    <%= render 'shared/modal',
+               modal_id: 'new-question-modal',
+               button_classes: 'button secondary mt-4',
+               button_text: '+ Add Question',
+               title: 'Add New Question',
+               content: render('issue_questions/form', issue_question: @issue.issue_questions.build) %>
+  </div>
+
+  <div class="my-12">
+    <%= render 'form', issue: @issue %>
+  </div>
