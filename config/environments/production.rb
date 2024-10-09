@@ -90,5 +90,5 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.action_mailer.delivery_method = :resend
-  config.action_mailer.asset_host = "mailpals.net"
+  config.action_mailer.asset_host = "https://mailpals.net"
 end

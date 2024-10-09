@@ -1,18 +1,18 @@
 class MemberPolicy < ApplicationPolicy
   def index?
-    record.club.is_member?(user)
+    record.club.is_member?(user) || user.super_admin?
   end
 
   def update?
-    record.club.can_manage?(user) || record.user == user
+    record.club.can_manage?(user) || record.user == user || user.super_admin?
   end
 
   def show?
-    record.club.is_member?(user)
+    record.club.is_member?(user) || user.super_admin?
   end
 
   def destroy?
-    record.club.can_manage?(user) && !record.owner?
+    (record.club.can_manage?(user) && !record.owner?) || user.super_admin?
   end
 
   # def create?
