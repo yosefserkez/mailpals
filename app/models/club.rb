@@ -105,7 +105,7 @@ class Club < ApplicationRecord
 
   def can_manage?(user)
     member = membership(user)
-    member.admin? || member.owner?
+    member&.admin? || member&.owner?
   end
 
   def active_sections
