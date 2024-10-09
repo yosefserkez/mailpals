@@ -12,7 +12,7 @@ cloudflare:
   access_key_id: <%= Rails.application.credentials.dig(:cloudflare, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:cloudflare, :secret_access_key) %>
   region: auto
-  bucket: rails-<%= Rails.env %>
+  bucket: mailpals-<%= Rails.env %>
 
 hetzner:
   service: S3
