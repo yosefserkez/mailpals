@@ -101,7 +101,7 @@ class IssuesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_issue
-    @issue = Issue.find(params[:issue_id])
+    @issue = Issue.find(params[:id] || params[:issue_id])
     authorize! @issue
   end
 
