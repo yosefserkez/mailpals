@@ -9,7 +9,7 @@
     <p class="mt-5">The latest issue of <%= @club.title %> is now open for replies. Don't miss out on sharing your thoughts!</p>
 
     <div class="mt-5 text-center">
-      <%= link_to "Reply Now", club_issue_new_reply_url(@club, @issue), class: "inline-block px-4 py-2 bg-[var(--primary-color)] text-white rounded" %>
+      <%= link_to "Reply Now", club_issue_new_reply_url(@club, @issue), class: "underline" %>
     </div>
 
     <p class="mt-5">The deadline for replies is <strong><%= (@issue.deliver_at - 1.minute).in_time_zone(@member.user.timezone).strftime("%A, %B %d at %I:%M %p %Z") %></strong>.</p>

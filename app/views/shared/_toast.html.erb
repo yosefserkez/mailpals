@@ -1,17 +1,21 @@
 <div id="toast-container"
      class="fixed top-4 right-2 lg:right-4 z-50">
   <% flash.each do |type, message| %>
-    <div class="mb-2 p-4 shadow-lg border flex justify-between items-center gap-4 bg-[var(--bg-color)] <%= toast_class_for(type) %>"
-         data-controller="toast"
-         data-toast-auto-dismiss-value="5000"
-         data-toast-target="message">
-      <p class="text-sm"><%= simple_format(message) %></p>
-      <button class="ml-auto p-1 rounded-full text-gray-600"
-              data-action="click->toast#close">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-      </button>
-    </div>
+    <% if type == "confetti" %>
+      <div data-controller="confetti"></div>
+    <% else %>
+      <div class="mb-2 p-4 shadow-lg border flex justify-between items-center gap-4 bg-[var(--bg-color)] <%= toast_class_for(type) %>"
+          data-controller="toast"
+          data-toast-auto-dismiss-value="5000"
+          data-toast-target="message">
+        <p class="text-sm"><%= simple_format(message) %></p>
+        <button class="ml-auto p-1 rounded-full text-gray-600"
+                data-action="click->toast#close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    <% end %>
   <% end %>
 </div>

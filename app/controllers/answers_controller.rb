@@ -36,7 +36,7 @@ class AnswersController < ApplicationController
           end
         end
       end
-      redirect_to club_issues_url(@club), notice: "Answers were successfully created."
+      redirect_to club_issues_url(@club), notice: "Answers were successfully created.", flash: { confetti: true }
     rescue ActiveRecord::RecordInvalid => exception
       flash.now[:alert] = exception.record.errors.full_messages.join("<br/>")
       @sqa = @issue.sections_questions_answers(@member)
