@@ -79,8 +79,13 @@ class IssuesController < ApplicationController
   end
 
   def deliver
-    @issue.send_delivery_emails
-    redirect_to club_issue_path(@issue.club, @issue), notice: "Issue delivery emails sent."
+    if @issue.sent?
+      @issue.send_delivery_emails
+      redirect_to club_issue_path(@issue.club, @issue), notice: "Issue delivery emails resent."
+    else
+      @issue.deliver
+      redirect_to club_issue_path(@issue.club, @issue), notice: "Issue delivery emails sent."
+    end
   end
 
   private
@@ -96,7 +101,7 @@ class IssuesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_issue
-    @issue = Issue.find(params[:id])
+    @issue = Issue.find(params[:issue_id])
     authorize! @issue
   end
 

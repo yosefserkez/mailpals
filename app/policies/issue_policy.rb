@@ -21,6 +21,10 @@ class IssuePolicy < ApplicationPolicy
     update?
   end
 
+  def deliver?
+    record.club.can_manage?(user)
+  end
+
   # Scoping
   # See https://actionpolicy.evilmartians.io/#/scoping
   #
