@@ -166,8 +166,9 @@ class Issue < ApplicationRecord
       # This condition checks if it's appropriate to schedule a reminder:
       # 1. The reminder time (deliver_at - interval) should not be before the issue opens (>= open_at)
       # 2. The reminder time should be in the future (> Time.current)
+      # 3. The reminder should be at least 1 day after the issue opens
       # If both conditions are met, we schedule a reminder for this interval
-      if deliver_at - interval >= open_at && deliver_at - interval > Time.current
+      if deliver_at - interval >= open_at && deliver_at - interval > Time.current && deliver_at - interval >= open_at + 1.day
         schedule_reminder(interval)
       end
     end
