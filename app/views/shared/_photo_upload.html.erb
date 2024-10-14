@@ -11,7 +11,7 @@
       <% form.object.images.each do |photo| %>
         <div class="relative group mb-6">
           <%= image_tag photo, class: 'w-20 h-20 object-cover rounded' %>
-          <%= form.check_box :photo_ids_to_delete, { multiple: true, class: 'hidden', data: { action: "change->photo-upload#toggleDeletePhoto" } }, photo.id, false %>
+          <%= form.check_box :photo_ids_to_delete, { multiple: true, class: 'hidden'}, photo.id, false %>
           <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <button type="button" class="text-white" data-action="click->photo-upload#markPhotoForDeletion" data-photo-id="<%= photo.id %>">
               Delete
