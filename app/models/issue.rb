@@ -144,6 +144,11 @@ class Issue < ApplicationRecord
     update(sent_at: nil)
   end
 
+  def reschedule_reminders_and_delivery
+    reschedule_reminders
+    reschedule_delivery
+  end
+
   private
 
   def set_defaults
