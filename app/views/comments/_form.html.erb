@@ -1,0 +1,6 @@
+<%= form_with(model: [answer.club, answer.issue, answer, comment], local: true, class: "mt-2", data: { controller: "reset-form", action: "turbo:submit-end->modal#close turbo:submit-end->reset-form#reset" }) do |form| %>
+  <div class="flex items-start mb-4">
+    <%= form.text_area :content, rows: 2, class: "flex-grow border rounded-lg p-2 mr-2", placeholder: "Add a comment..." %>
+  </div>
+    <%= component 'submit_button', form: form, text: 'Save', cancel_action: "click->modal#close" %>
+<% end %>

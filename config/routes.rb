@@ -33,7 +33,9 @@ Rails.application.routes.draw do
     end
     resources :issues do
       resources :issue_questions
-      resources :answers
+      resources :answers do
+        resources :comments, only: [ :create ]
+      end
       post "deliver", to: "issues#deliver", as: :deliver
       post "reply", to: "answers#create", as: :reply
       get "reply", to: "answers#new", as: :new_reply

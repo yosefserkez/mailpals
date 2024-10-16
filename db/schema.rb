@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_09_27_011440) do
+ActiveRecord::Schema[8.0].define(version: 2024_10_16_202640) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -63,6 +63,16 @@ ActiveRecord::Schema[8.0].define(version: 2024_09_27_011440) do
     t.datetime "updated_at", null: false
     t.string "timezone"
     t.string "theme", default: "base"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "member_id", null: false
+    t.integer "answer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_id"], name: "index_comments_on_answer_id"
+    t.index ["member_id"], name: "index_comments_on_member_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -162,6 +172,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_09_27_011440) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "issue_questions"
   add_foreign_key "answers", "members"
+  add_foreign_key "comments", "answers"
+  add_foreign_key "comments", "members"
   add_foreign_key "events", "users"
   add_foreign_key "hidden_members", "members", column: "hidden_id"
   add_foreign_key "hidden_members", "members", column: "hider_id"

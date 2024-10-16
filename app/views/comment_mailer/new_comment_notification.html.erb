@@ -1,0 +1,34 @@
+<div class="theme--<%= @answer.issue.club.theme || 'base' %> md:max-w-2xl md:mx-auto pt-15 overflow-auto">
+  <div class="w-full md:max-w-[650px] md:mx-auto mb-8 overflow-visible">
+    <h1 class="my-1"><%= @answer.issue.club.title %></h1>
+    <h3 class=""><%= @answer.issue.title %> | <%= @answer.issue.deliver_at.strftime("%B %d, %Y") %></h3>
+    <hr class="my-1">
+    <p class="text-sm m-0 secondary-color">New Comment Notification</p>
+
+    <p class="mt-5">Hello <%= @author.display_name %>,</p>
+
+    <p class="mt-5"><strong><%= @commenter.display_name %></strong> has commented on your answer to the question:</p>
+
+    <div class="mt-5 p-5 border-l-2">
+      <h3 class="font-semibold"><%= @answer.issue_question.prompt %></h3>
+      <p class="mt-2"><%= @answer.content %></p>
+    </div>
+
+    <div class="mt-5 bg-gray-100 p-5 rounded-md">
+      <h4 class="font-semibold"><%= @commenter.display_name %> said:</h4>
+      <p class="font-normal"><%= @comment.content %></p>
+    </div>
+
+    <div class="mt-5 text-center">
+      <%= link_to "View Conversation", club_issue_url(@answer.issue.club, @answer.issue, anchor: "comment_#{@comment.id}", params: { answer: @answer.id, comment: @comment.id }), class: "underline" %>
+    </div>
+
+    <p class="mt-5">Thank you for being a part of <%= @answer.issue.club.title %>!</p>
+
+    <div class="mt-10 text-center">
+      <%= link_to root_url do %>
+        <%= image_tag 'mailpals_logo_rect.png', alt: 'MailPals Logo', class: 'w-24 mx-auto' %>
+      <% end %>
+    </div>
+  </div>
+</div>

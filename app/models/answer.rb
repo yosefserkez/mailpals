@@ -2,6 +2,7 @@ class Answer < ApplicationRecord
   belongs_to :member
   belongs_to :issue_question
 
+  has_many :comments, dependent: :destroy
   has_many_attached :images, dependent: :destroy
 
   validates :member_id, presence: true
@@ -29,11 +30,10 @@ class Answer < ApplicationRecord
   end
 
   private
-  
+
   def no_updates_after_delivery
     if issue_question.issue.sent?
       errors.add(:base, "Cannot update answer after issue has been delivered")
     end
   end
-
 end
