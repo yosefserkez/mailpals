@@ -13,7 +13,6 @@ class IssuesController < ApplicationController
 
   # GET /issues/1 or /issues/1.json
   def show
-    render template: "issue_mailer/deliver_issue", layout: "mailer"
   end
 
   # GET /issues/new

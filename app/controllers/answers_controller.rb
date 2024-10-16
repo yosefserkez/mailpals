@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
-  layout "issue", only: %i[new edit]
-  before_action :set_current, only: %i[new edit create destroy]
+  layout "issue"
+  before_action :set_current
 
   def index
     redirect_to club_issues_url(@club)
@@ -51,15 +51,12 @@ class AnswersController < ApplicationController
 
   private
 
-  def set_answer
-    @answer = Answer.find(params[:id])
-  end
-
   def set_current
     @club = Club.find(params[:club_id])
     authorize! @club, to: :show?
     @member = @club.membership(current_user)
     @issue = @club.issues.find(params[:issue_id])
+    @answer = @issue.answers.find(params[:id])
   end
 
   def answer_params
