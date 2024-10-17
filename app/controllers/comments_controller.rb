@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        CommentMailer.new_comment_notification(@comment).deliver_later
+        CommentMailer.new_comment_notification(@comment).deliver_later unless @comment.member == @answer.member
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.prepend("comments-#{@answer.id}", partial: "comments/comment", locals: { comment: @comment }),
