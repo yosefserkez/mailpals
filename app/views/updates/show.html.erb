@@ -1,0 +1,10 @@
+<div class="container mx-auto px-4 py-8">
+  <%= link_to updates_path, class: "inline-flex items-center mb-4 text-blue-600 hover:text-blue-800" do %>
+    <%= icon("arrow-left", class: "w-4 h-4 mr-2") %>
+    <span>Back to Updates</span>
+  <% end %>
+  <h2 class="text-gray-600 mb-4"><%= @update_date.strftime("%B %d, %Y") %></h2>
+  <div class="prose">
+    <%= markdown(@update) %>
+  </div>
+</div>

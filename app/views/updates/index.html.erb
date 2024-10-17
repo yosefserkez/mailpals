@@ -1,0 +1,16 @@
+<div class="container mx-auto px-4 py-8">
+  <%= link_to root_path, class: "inline-flex items-center mb-4 text-blue-600 hover:text-blue-800" do %>
+    <%= icon("arrow-left", class: "w-4 h-4 mr-2") %>
+    <span>Back to Home</span>
+  <% end %>
+  <h1 class="text-3xl font-bold mb-6">MailPals Updates</h1>
+  <div class="space-y-4">
+    <% @updates.each do |update| %>
+      <%= link_to update_path(update[:filename].gsub('.md', '')), class: "block p-4 border rounded-lg hover:bg-gray-50" do %>
+        <h2 class=" font-semibold"><%= update[:title] %></h2>
+        <h3 class="text-gray-600 text-sm"><%= update[:date].strftime("%B %d, %Y") %></h3>
+        <p class="text-gray-600 mt-2"><%= truncate(strip_tags(markdown(update[:content])), length: 150) %></p>
+      <% end %>
+    <% end %>
+  </div>
+</div>

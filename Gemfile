@@ -78,3 +78,4 @@ gem "rails_icons"
 gem "aws-sdk-s3", require: false
 gem 'rails_autolink'
 
+gem 'redcarpet'
