@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :clubs, through: :members
   has_many :issues, through: :clubs
-  has_many :answers, dependent: :destroy
+  has_many :answers, through: :members
   has_many :sessions, dependent: :destroy
   has_many :events, dependent: :destroy
 

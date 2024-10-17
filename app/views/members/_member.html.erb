@@ -33,7 +33,7 @@
               button_text: 'Edit Member',
               title: 'Edit Member',
               content: render('form', member: member) %>
-            <% if current_member.owner? && member.role != "owner" %>
+            <% if allowed_to?(:manage?, @club) && member.role != "owner" %>
             <%= button_to "Remove member", club_member_path(@club, member), method: :delete, class: "pico-unset block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100", data: { turbo_confirm: "Are you sure you want to remove this member?" } %>
           <% end %>
         </div>
