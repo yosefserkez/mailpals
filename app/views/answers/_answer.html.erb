@@ -1,36 +1,50 @@
+<% comments_hidden = params[:answer] == answer.id.to_s ? '' : 'hidden' %>
 
 <div id="answer-<%= answer.id %>">
   <% if answer.images.attached? %>
     <% answer.images.each do |image| %>
       <div class="mt-5 border-[var(--primary-color)] overflow-hidden">
         <%= image_tag url_for(image), alt: "Image from #{answer.member.display_name}", class: "max-w-full h-auto align-middle inline-block" %>
-        <p class="p-5 m-0 text-sm border-l-2"><strong><%= answer.member.display_name %></strong><%= "<span class='font-normal'> #{answer.content}</span>" if answer.content.present? %></p>
+        <p class="px-7 py-2 m-0 text-sm bg-amber-50 rounded rounded-t-none"><strong><%= answer.member.display_name %></strong><%= "<span class='font-normal'> #{answer.content}</span>" if answer.content.present? %></p>
       </div>
     <% end %>
   <% else %>
-    <p class="p-5 m-0 text-sm  border-l-2"><strong><%= answer.member.display_name %></strong><span class="font-normal"><%= " #{answer.content}" if answer.content.present? %></span></p>
+    <p class="px-7 py-4 m-0 text-sm bg-amber-50 rounded"><strong><%= answer.member.display_name %>: </strong><span class="font-normal"><%= " #{answer.content}" if answer.content.present? %></span></p>
   <% end %>
 
+ <% if action_name.eql?('show') %>
   <div class="mt-2" data-controller="toggle-class">
     <div class="flex items-center justify-between">
-    <button class="text-sm text-gray-500 hover:text-gray-700" data-action="click->toggle-class#toggle">
-      Comments (<span id="comment-count-<%= answer.id %>"><%= answer.comments.count %></span>)
-    </button>
-    <%= render 'shared/modal',
-      modal_id: "new-comment-modal-#{answer.id}",
-      button_classes: 'text-sm text-gray-500 hover:text-gray-700',
-      button_text: -> do
-        tag.span class: 'flex items-center' do
-          # concat icon 'message-circle', class: 'w-5'
-          concat "Add Comment"
-        end
-      end,
-      title: 'Add New Comment',
-      subtitle: "Add a comment to #{answer.member.display_name}'s response to '#{answer.issue_question.prompt}'",
-      content: render('comments/form', comment: Comment.new, answer: answer, question: answer.issue_question.prompt, response: answer.content) %>
+      <button class="text-sm text-gray-300 hover:text-gray-700 flex items-center" data-action="click->toggle-class#toggle">
+        <%= icon 'chevron-down', class: "w-5 mr-2 #{!comments_hidden ? '' : 'hidden'}", data: { toggle_class_target: 'toggleable' } %>
+        <%= icon 'chevron-up', class: "w-5 mr-2 #{comments_hidden}", data: { toggle_class_target: 'toggleable' } %>
+        Comments (<span id="comment-count-<%= answer.id %>"><%= answer.comments.count %></span>)
+      </button>
+      <%= render 'shared/modal',
+        modal_id: "new-comment-modal-#{answer.id}",
+        button_classes: 'text-sm text-gray-300 hover:text-gray-700',
+        button_text: -> do
+          tag.span class: 'flex items-center' do
+            concat "Add Comment"
+          end
+        end,
+        title: 'Add New Comment',
+        subtitle: "Add a comment to #{answer.member.display_name}'s response to '#{answer.issue_question.prompt}'",
+        content: render('comments/form', comment: Comment.new, answer: answer, question: answer.issue_question.prompt, response: answer.content),
+        open_on_connect: params[:comment_on] == answer.id.to_s %>
     </div>
-  <div id="comments-<%= answer.id %>" class="<%= params[:answer] == answer.id.to_s ? '' : 'hidden' %>  mt-2 space-y-2" data-toggle-class-target="toggleable">
-    <%= render answer.comments.order(created_at: :desc) %>
+    <div id="comments-<%= answer.id %>" class="<%= comments_hidden %> pl-4 ml-2 border-l-2 mt-2 space-y-2" data-toggle-class-target="toggleable">
+      <%= render answer.comments.order(created_at: :desc) %>
+      <div id="comments-<%= answer.id %>-empty" class="<%= 'hidden' if answer.comments.any? %> text-sm text-gray-500 italic mt-2">
+        No comments yet.
+      </div>
+    </div>
   </div>
+  <% else %>
+    <div class="mt-2 font-light text-xs text-right">
+      <%= link_to club_issue_url(@issue.club, @issue, anchor: "answer-#{answer.id}", params: { answer: answer.id, comment_on: answer.id }), class: "text-sm text-gray-300 hover:text-gray-700" do %>
+      Add Comment
+    <% end %>
   </div>
+<% end %>
 </div>

@@ -1,4 +1,4 @@
-<div id="<%= dom_id comment %>"class="p-2 bg-gray-100 rounded <%= params[:comment] == comment.id.to_s ? 'bg-yellow-200' : '' %>">
+<div id="<%= dom_id comment %>"class="p-2 bg-gray-50 rounded <%= params[:comment] == comment.id.to_s ? 'bg-yellow-200' : '' %>">
   <p class="text-sm">
     <strong><%= comment.member.display_name %>:</strong> <%= comment.content %>
     <span class="text-gray-500 text-xs ml-2">
