@@ -9,7 +9,7 @@
       </div>
     <% end %>
   <% else %>
-    <p class="px-7 py-4 m-0 text-sm bg-amber-50 rounded"><strong><%= answer.member.display_name %>: </strong><span class="font-normal"><%= " #{answer.content}" if answer.content.present? %></span></p>
+    <div class="px-7 py-4 m-0 text-sm bg-amber-50 rounded"><strong><%= answer.member.display_name %></strong><%= format_and_sanitize_text(answer.content) if answer.content.present? %></div>
   <% end %>
 
  <% if action_name.eql?('show') %>
