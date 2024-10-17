@@ -1,0 +1,19 @@
+<div class="theme--base md:max-w-2xl md:mx-auto pt-15 overflow-auto">
+  <div class="w-full md:max-w-[650px] md:mx-auto mb-8 overflow-visible">
+    <h1 class="my-1">MailPals Update</h1>
+    <h3 class=""><%= Date.today.strftime("%B %d, %Y") %></h3>
+    <hr class="my-1">
+
+    <div class="mt-10">
+      <div class="prose">
+        <%= markdown(@update_content) %>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center">
+      <%= link_to root_url do %>
+        <%= image_tag 'mailpals_logo_rect.png', alt: 'MailPals Logo', class: 'w-24 mx-auto' %>
+      <% end %>
+    </div>
+  </div>
+</div>

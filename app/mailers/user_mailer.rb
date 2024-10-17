@@ -21,4 +21,10 @@ class UserMailer < ApplicationMailer
 
     mail to: @user.email, subject: "Invitation instructions"
   end
+
+  def platform_updates(user, update_content)
+    @user = user
+    @update_content = update_content
+    mail(to: @user.email, subject: "New Features Available!")
+  end
 end
