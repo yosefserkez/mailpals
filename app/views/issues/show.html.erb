@@ -8,7 +8,7 @@
     <% @issue.sections_questions_answers(nil, @issue.club.visible_members(@member || @issue.club.membership(current_user))).each do |section| %>
       <div class="mt-10">
         <% if section[:key] != "questions" %>
-          <h2 class="font-semibold"><%= t("clubs.sections.#{section[:key]}.title") %></h3>
+          <h3 class="font-semibold"><%= t("clubs.sections.#{section[:key]}.title") %></h3>
         <% end %>
 
         <% section[:questions].each do |qa| %>

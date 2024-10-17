@@ -1,11 +1,10 @@
 module ApplicationHelper
+  include TextFormattingHelper
+
   def current_user
     Current.user
   end
 
-  def formatted_date(datetime)
-    datetime.strftime("%A, %B #{datetime.day.ordinalize}")
-  end
 
   def component(name, locals = {}, &block)
     render "shared/components/#{name}", locals, &block

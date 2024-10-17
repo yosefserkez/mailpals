@@ -76,3 +76,5 @@ gem "mission_control-jobs"
 gem 'premailer-rails'
 gem "rails_icons"
 gem "aws-sdk-s3", require: false
+gem 'rails_autolink'
+
