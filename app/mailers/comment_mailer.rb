@@ -5,6 +5,7 @@ class CommentMailer < ApplicationMailer
     @author = @answer.member
     @commenter = comment.member
 
+    return if @author == @commenter
     mail(
       to: @author.user.email,
       subject: "New comment on your answer in #{@answer.issue.club.title}"

@@ -56,7 +56,7 @@ class AnswersController < ApplicationController
     authorize! @club, to: :show?
     @member = @club.membership(current_user)
     @issue = @club.issues.find(params[:issue_id])
-    @answer = @issue.answers.find(params[:id])
+    @answer = @issue.answers.find(params[:id]) if params[:id].present?
   end
 
   def answer_params
