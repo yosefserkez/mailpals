@@ -16,8 +16,6 @@
   <div class="mt-2" data-controller="toggle-class">
     <div class="flex items-center justify-between">
       <button class="text-sm text-gray-300 hover:text-gray-700 flex items-center" data-action="click->toggle-class#toggle">
-        <%= icon 'chevron-down', class: "w-5 mr-2 #{!comments_hidden ? '' : 'hidden'}", data: { toggle_class_target: 'toggleable' } %>
-        <%= icon 'chevron-up', class: "w-5 mr-2 #{comments_hidden}", data: { toggle_class_target: 'toggleable' } %>
         Comments (<span id="comment-count-<%= answer.id %>"><%= answer.comments.count %></span>)
       </button>
       <%= render 'shared/modal',
@@ -33,7 +31,7 @@
         content: render('comments/form', comment: Comment.new, answer: answer, question: answer.issue_question.prompt, response: answer.content),
         open_on_connect: params[:comment_on] == answer.id.to_s %>
     </div>
-    <div id="comments-<%= answer.id %>" class="<%= comments_hidden %> pl-4 ml-2 border-l-2 mt-2 space-y-2" data-toggle-class-target="toggleable">
+    <div id="comments-<%= answer.id %>" class="<%= comments_hidden %> pl-4 border-l-2 mt-2 space-y-2" data-toggle-class-target="toggleable">
       <%= render answer.comments.order(created_at: :desc) %>
       <div id="comments-<%= answer.id %>-empty" class="<%= 'hidden' if answer.comments.any? %> text-sm text-gray-500 italic mt-2">
         No comments yet.
