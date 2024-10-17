@@ -1,7 +1,7 @@
 <% content ||= yield %>
 <div data-controller="modal" 
      data-modal-required-input-value="<%= local_assigns[:required_input] %>"
-     data-modal-open-on-connect-value="<%= local_assigns[:open_on_connect] %>">
+     data-modal-open-on-connect-value="<%= local_assigns[:open_on_connect] || false %>">
   <button data-action="click->modal#open" data-modal-target="<%= modal_id %>" class="<%= button_classes %>">
     <%= button_text.is_a?(Proc) ? capture(&button_text) : button_text %>
   </button>
