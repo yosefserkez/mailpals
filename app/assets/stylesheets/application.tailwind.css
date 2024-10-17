@@ -82,3 +82,7 @@ h5 {
     text-shadow: 2px 2px 4px #e02d38;
   }
 }
+
+body.modal-open {
+  overflow: hidden;
+}

@@ -16,8 +16,8 @@
             <% if qa[:question].section == "questions" %>
               <h3 class="font-semibold"><%= qa[:question].prompt %></h3>
             <% end %>
-            <div class="flex flex-col space-y-4">
-              <%= render qa[:answers]%>
+            <div class="flex flex-col space-y-4 mt-4">
+              <%= render qa[:answers] %>
             </div>
           </div>
         <% end %>

@@ -3,20 +3,28 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["modal", "input", "confirmButtonParent"]
-  static values = { requiredInput: String }
+  static values = {
+    requiredInput: String,
+    openOnConnect: Boolean
+  }
 
   connect() {
     if (this.hasRequiredInputValue && this.requiredInputValue) {
       this.disableConfirmButton(true)
     }
+    if (this.openOnConnectValue) {
+      this.open()
+    }
   }
 
   open() {
     this.modalTarget.classList.remove("hidden")
+    document.body.classList.add("modal-open")
   }
 
   close() {
     this.modalTarget.classList.add("hidden")
+    document.body.classList.remove("modal-open")
   }
 
   checkInput() {
@@ -33,7 +41,6 @@ export default class extends Controller {
       button.disabled = disabled
       button.classList.toggle('disabled', disabled)
       button.classList.toggle('pointer-events-none', disabled)
-
     }
   }
 }
