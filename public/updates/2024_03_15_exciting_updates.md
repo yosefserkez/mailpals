@@ -30,4 +30,4 @@ Remember that weird bug from last week with duplicate old replies? Yeah, I fixed
 </div>
 ---
 
-I hope you enjoy these updates. You can find all updates at [mailpals.com/updates](https://mailpals.com/updates). Happy MailPal-ing? 📬✨
+I hope you enjoy these updates. You can find all updates at [mailpals.net/updates](https://mailpals.net/updates). Happy MailPal-ing? 📬✨
