@@ -1,1 +1,0 @@
-- Image delete is not finding by id
