@@ -770,11 +770,23 @@ if Rails.env.development?
   issue_question = past_issue.issue_questions.first
 
   members.each do |member|
-    Answer.find_or_create_by!(
+    answer = Answer.find_or_create_by!(
       issue_question: issue_question,
       member: member,
       content: "This is #{member.display_name}'s answer to the book club question."
     )
+    
+    # Add comments from other members on each answer, spaced 12 hours apart
+    members.each_with_index do |commenter, index|
+      next if commenter == member # Skip commenting on own answer
+      Comment.find_or_create_by!(
+        answer: answer,
+        member: commenter,
+        content: "Comment #{index + 1}: Great perspective, #{member.display_name}! - from #{commenter.display_name}",
+        created_at: answer.created_at - ((members.count - index) * 12.hours),
+        updated_at: answer.created_at - ((members.count - index) * 12.hours)
+      )
+    end
   end
 end
 
