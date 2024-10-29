@@ -32,7 +32,7 @@
         open_on_connect: params[:comment_on] == answer.id.to_s %>
     </div>
     <div id="comments-<%= answer.id %>" class="<%= comments_hidden %> pl-4 border-l-2 mt-2 space-y-2" data-toggle-class-target="toggleable">
-      <%= render answer.comments.order(created_at: :desc) %>
+      <%= render answer.comments.order(created_at: :asc) %>
     </div>
   </div>
   <% else %>
