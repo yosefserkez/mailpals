@@ -681,6 +681,113 @@ end
 
 if Rails.env.development?
   create_questions(QUESTIONS) unless Question.count > 0
+  
+  # Create test users
+  users = [
+    {
+      email: 'alice@example.com',
+      username: 'alice123',
+      name: 'Alice Smith',
+      verified: true,
+      password: 'Password123!',
+      password_confirmation: 'Password123!'
+    },
+    {
+      email: 'bob@example.com',
+      username: 'bob456',
+      name: 'Bob Johnson',
+      verified: true,
+      password: 'Password123!',
+      password_confirmation: 'Password123!'
+    },
+    {
+      email: 'carol@example.com',
+      username: 'carol789',
+      name: 'Carol Williams',
+      verified: false,
+      password: 'Password123!',
+      password_confirmation: 'Password123!'
+    },
+    {
+      email: 'dave@example.com',
+      username: 'dave101',
+      name: 'Dave Brown',
+      verified: true,
+      password: 'Password123!',
+      password_confirmation: 'Password123!'
+    }
+  ]
+
+  # Create users if they don't exist and store them for reference
+  created_users = users.each_with_object({}) do |user_attrs, memo|
+    memo[user_attrs[:username]] = User.find_or_create_by!(email: user_attrs[:email]) do |user|
+      user.assign_attributes(user_attrs)
+    end
+  end
+
+  # Create Book Lovers club if it doesn't exist
+  book_lovers = Club.find_or_create_by!(title: 'Book Lovers') do |club|
+    club.description = 'A club for passionate readers to discuss their favorite books'
+    club.active = true
+    club.default_number_questions = 2
+    club.delivery_time = 9
+    club.delivery_frequency = 1
+    club.delivery_day = 1
+    club.invite_code = 'BOOKS123'
+  end
+
+  # Create memberships with different roles
+  {
+    'alice123' => 'owner',
+    'bob456' => 'member',
+    'carol789' => 'member',
+    'dave101' => 'member'
+  }.each do |username, role|
+    Member.find_or_create_by!(
+      user: created_users[username],
+      club: book_lovers
+    ) do |member|
+      member.display_name = created_users[username].name
+      member.role = role
+      member.activated_at = Time.current
+    end
+  end
+ 
+  # Create a past issue
+  past_issue = Issue.find_or_create_by!(
+    club: book_lovers,
+    open_at: 2.weeks.ago,
+    deliver_at: 2.weeks.ago,
+    sent_at: 2.weeks.ago,
+    sections: ["questions"]
+  )
+
+  # Generate questions for the issue
+  past_issue.generate_questions(1)
+
+  # Create answers for each member
+  members = Member.where(club: book_lovers)
+  issue_question = past_issue.issue_questions.first
+
+  members.each do |member|
+    answer = Answer.find_or_create_by!(
+      issue_question: issue_question,
+      member: member,
+      content: "This is #{member.display_name}'s answer to the book club question."
+    )
+    
+    # Add comments from other members on each answer, spaced 12 hours apart
+    members.each_with_index do |commenter, index|
+      next if commenter == member # Skip commenting on own answer
+      Comment.find_or_create_by!(
+        answer: answer,
+        member: commenter,
+        content: "Comment #{index + 1}: Great perspective, #{member.display_name}! - from #{commenter.display_name}",
+        created_at: answer.created_at - ((members.count - index) * 12.hours),
+        updated_at: answer.created_at - ((members.count - index) * 12.hours)
+      )
+    end
+  end
 end
 
 if Rails.env.production?
