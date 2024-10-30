@@ -48,3 +48,18 @@
 .theme--dark .bg-amber-50 {
     background-color: #1e1e1e !important;
 }
+
+.theme--dark .bg-gray-100,
+.theme--dark .bg-gray-50 {
+    background-color: #1e1e1e !important;
+}
+
+.theme--dark .text-gray-700,
+.theme--dark .text-gray-500,
+.theme--dark .text-gray-300 {
+    color: #888888 !important;
+}
+
+.theme--dark .hover\:text-gray-700:hover {
+    color: #ffffff !important;
+}
