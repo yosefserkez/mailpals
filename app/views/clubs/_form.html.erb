@@ -1,21 +1,16 @@
 <%= form_with(model: club, 
     class: "space-y-6", 
     data: { 
-      controller: "theme-switcher #{club.new_record? ? nil : 'auto-submit'}",
+      controller: "#{club.new_record? ? nil : 'auto-submit'}",
       theme_switcher_target: "form",
-      action: "change->theme-switcher#change change->auto-submit#submit"
+      action: "change->auto-submit#submit"
     }) do |form| %>
   <% club_options.each do |key, option| %>
     <div>
       <h3><%= option[:title] %></h3>
       <p class="subtitle"><%= option[:description] %></p>
 
-      <% if key == :theme %>
-        <%= form.send(option[:field_type], key, 
-            option[:options], 
-            {}, 
-            { data: { theme_switcher_target: "themeSelect" } }) %>
-      <% elsif option[:field_type] == :toggle_switch %>
+      <% if option[:field_type] == :toggle_switch %>
         <label class="relative inline-flex items-center cursor-pointer">
           <%= form.check_box key, checked: club.send(key), class: "" %>
         </label>
@@ -31,7 +26,7 @@
           <%= render_sub_options(form, b.object.last[:sub_options]) if b.object.last[:sub_options].present? %>
         <% end %>
       <% elsif [:select, :collection_select, :time_zone_select].include?(option[:field_type]) %>
-        <%= form.send(option[:field_type], key, option[:options], {}, {}) %>
+        <%= form.send(option[:field_type], key, option[:options], {}, option[:additional_options] || {}) %>
       <% else %>
         <%= form.send(option[:field_type], key) %>
       <% end %>

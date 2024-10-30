@@ -21,7 +21,7 @@ module ClubsHelper
   def club_options
     {
       title: create_option("title", :text_field, "options"),
-      theme: create_option("theme", :select, "options", options: Club::THEMES.map { |theme| [ theme.capitalize, theme ] }),
+      theme: create_option("theme", :select, "options", options: Club::THEMES.map { |theme| [ theme.capitalize, theme ] }, additional_options: { data: { controller: "theme-switcher", theme_switcher_target: "themeSelect", action: "change->theme-switcher#change" } }),
       sections: create_option("sections", :collection_check_boxes, "options", options: section_options),
       delivery_frequency: create_option("delivery_frequency", :select, "options", options: options_for_select(Club.delivery_frequencies)),
       delivery_time: create_option("delivery_time", :select, "options", options: options_for_select(Club.delivery_times)),
