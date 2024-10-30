@@ -61,7 +61,7 @@ class ClubsController < ApplicationController
     respond_to do |format|
       if @club.update(club_params)
         format.html { redirect_to edit_club_url(@club), notice: "Club was successfully updated." }
-        format.turbo_stream { head :ok }
+        format.turbo_stream { render turbo_stream: [ turbo_stream.replace("content", partial: "form", locals: { club: @club }), turbo_stream.append("flash", partial: "shared/notice", locals: { message: "Theme updated successfully" }) ] }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("content", partial: "form", locals: { club: @club }) }
