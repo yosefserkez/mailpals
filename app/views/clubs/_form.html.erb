@@ -1,10 +1,21 @@
-<%= form_with(model: club, class: "space-y-6") do |form| %>
+<%= form_with(model: club, 
+    class: "space-y-6", 
+    data: { 
+      controller: "theme-switcher #{club.new_record? ? nil : 'auto-submit'}",
+      theme_switcher_target: "form",
+      action: "change->theme-switcher#change change->auto-submit#submit"
+    }) do |form| %>
   <% club_options.each do |key, option| %>
     <div>
       <h3><%= option[:title] %></h3>
       <p class="subtitle"><%= option[:description] %></p>
 
-      <% if option[:field_type] == :toggle_switch %>
+      <% if key == :theme %>
+        <%= form.send(option[:field_type], key, 
+            option[:options], 
+            {}, 
+            { data: { theme_switcher_target: "themeSelect" } }) %>
+      <% elsif option[:field_type] == :toggle_switch %>
         <label class="relative inline-flex items-center cursor-pointer">
           <%= form.check_box key, checked: club.send(key), class: "" %>
         </label>
@@ -30,8 +41,19 @@
 
 
   <div class="mt-6 flex justify-between">
-    <%= component 'submit_button', form: form, cancel_path: club.persisted? ? club_issues_path(club) : clubs_path  %>
-    <%= button_tag "Delete Club", type: "button", class: "button minimal danger", onclick: "document.querySelector('[data-modal-target=\"delete-club-modal\"]').click()" if @club.persisted? %>
+    <% if @club.persisted? %>
+      <%= button_tag @club.active? ? "Pause Club" : "Activate", 
+          type: "button", 
+          class: "button outline #{@club.active? ? 'danger' : 'success'}", 
+          onclick: "document.querySelector('[data-modal-target=\"toggle-club-status-modal\"]').click()"
+         %>
+      
+      <%= button_tag "Delete Club", 
+          type: "button", 
+          class: "button minimal danger", 
+          onclick: "document.querySelector('[data-modal-target=\"delete-club-modal\"]').click()"
+          %>
+    <% end %>
   </div>
 <% end %>
 
@@ -42,7 +64,30 @@
            title: 'Delete Club',
            required_input: 'DELETE',
            required_input_message: 'Type DELETE to confirm',
+           data: { modal_target: "delete-club-modal" },
            confirm_button: link_to("Delete Club", @club, method: :delete, class: 'button danger', data: { turbo_method: :delete }) do %>
   <p>Are you sure you want to delete this club?</p>
   <p class="text-[var(--danger-color)]">This action cannot be undone.</p>
+<% end %>
+
+<%= render 'shared/modal',
+           modal_id: 'toggle-club-status-modal',
+           data: { modal_target: "toggle-club-status-modal" },
+           button_classes: 'button minimal',
+           button_text: '',
+           title: @club.active? ? 'Pause Club' : 'Activate Club',
+           confirm_button: button_to(
+             @club.active? ? "Pause Club" : "Activate Club",
+             club_path(@club),
+             method: :patch,
+             class: "button #{@club.active? ? 'warning' : 'success'}",
+             form: { data: { turbo: false } },
+             params: { club: { active: !@club.active } }
+           ) do %>
+  <% if @club.active? %>
+    <p>Are you sure you want to pause this club?</p>
+    <p class="text-[var(--warning-color)]">Current Issues will be deleted and no new issues will be generated while paused.</p>
+  <% else %>
+    <p>Are you sure you want to activate this club? New issues will be generated.</p>
+  <% end %>
 <% end %>

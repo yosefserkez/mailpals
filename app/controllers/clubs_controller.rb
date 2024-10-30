@@ -62,10 +62,21 @@ class ClubsController < ApplicationController
       if @club.update(club_params)
         format.html { redirect_to edit_club_url(@club), notice: "Club was successfully updated." }
         format.json { render :show, status: :ok, location: @club }
+        format.turbo_stream {
+          flash.now[:notice] = "Club was successfully updated."
+          render turbo_stream: [
+            turbo_stream.replace("club_form", partial: "form", locals: { club: @club })
+          ]
+        }
       else
         flash.now[:alert] = @club.errors.full_messages.join("<br/>")
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @club.errors, status: :unprocessable_entity }
+        format.turbo_stream {
+          render turbo_stream: [
+            turbo_stream.replace("club_form", partial: "form", locals: { club: @club })
+          ], status: :unprocessable_entity
+        }
       end
     end
   end
