@@ -63,3 +63,13 @@
 .theme--dark .hover\:text-gray-700:hover {
     color: #ffffff !important;
 }
+
+.theme--dark input[type="checkbox"]:checked::after {
+    content: "✓";
+    color: var(--bg-color);
+}
+
+.theme--dark input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+}
