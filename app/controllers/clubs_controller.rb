@@ -7,7 +7,8 @@ class ClubsController < ApplicationController
 
   # GET /clubs or /clubs.json
   def index
-    @clubs = authorized_scope(Club.all)
+    @active_clubs = Club.active.order(:title)
+    @inactive_clubs = Club.inactive.order(:title)
   end
 
   # GET /clubs/1 or /clubs/1.json

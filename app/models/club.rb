@@ -20,6 +20,9 @@ class Club < ApplicationRecord
   after_update :recalculate_issue_dates, if: -> { saved_change_to_delivery_frequency? || saved_change_to_delivery_time? || saved_change_to_delivery_day? || saved_change_to_timezone? }
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
 
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
+
   def self.delivery_frequencies
     { daily: 1, weekly: 7, biweekly: 14, monthly: 28, quarterly: 90, yearly: 365 }
   end
