@@ -95,3 +95,7 @@
 .theme--dark [data-dropdown-target="menu"] a:hover {
     background-color: #2d2d2d !important;
 }
+
+.theme--dark img[alt="MailPals Logo"] {
+    filter: drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
+}
