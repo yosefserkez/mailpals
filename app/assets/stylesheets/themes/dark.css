@@ -44,3 +44,7 @@
     border-color: var(--primary-color);
     outline: none;
 }
+
+.theme--dark .bg-amber-50 {
+    background-color: #1e1e1e !important;
+}
