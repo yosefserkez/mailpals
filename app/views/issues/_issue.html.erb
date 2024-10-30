@@ -1,7 +1,15 @@
 <div id="<%= dom_id issue %>" class="frame p-4 pt-2 flex flex-col justify-between gap-4">
   <div>
     <div class="flex justify-between items-end">
-      <span class="text-sm <%= issue.in_progress? ? 'text-[var(--success-color)]' : 'text-[var(--warning-color)]' %>">
+      <span class="text-sm <%= 
+        case
+        when issue.in_progress?
+          'text-[var(--success-color)]'
+        when issue.upcoming?
+          'text-[var(--warning-color)]'
+        when issue.sent?
+          'text-[var(--info-color)]'
+        end %>">
         <%= 'In Progress' if issue.in_progress? %>
         <%= 'Upcoming' if issue.upcoming? %>
         <%= 'Sent' if issue.sent? %>
