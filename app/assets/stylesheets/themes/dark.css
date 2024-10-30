@@ -1,0 +1,46 @@
+.theme--dark {
+    --primary-color: #ffffff;
+    --secondary-color: #888888;
+    --font-color: #ffffff;
+    --bg-color: #121212;
+    --success-color: #4caf50;
+    --danger-color: #f44336;
+    --warning-color: #ff9800;
+    --info-color: #2196f3;
+    --error-color: #f44336;
+    --border-radius: 4px;
+}
+
+.theme--dark {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}
+
+.theme--dark .frame {
+    background-color: #1e1e1e;
+    border: 1px solid #333333;
+}
+
+.theme--dark h1,
+.theme--dark h2,
+.theme--dark h3,
+.theme--dark h4,
+.theme--dark h5,
+.theme--dark p {
+    color: var(--font-color);
+}
+
+.theme--dark input,
+.theme--dark select,
+.theme--dark textarea {
+    background-color: #2d2d2d;
+    color: var(--font-color);
+    border-color: #404040;
+}
+
+.theme--dark input:focus,
+.theme--dark select:focus,
+.theme--dark textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}

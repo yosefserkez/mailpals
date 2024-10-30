@@ -2,7 +2,7 @@ class Club < ApplicationRecord
   has_many :issues, dependent: :destroy
   has_many :members, dependent: :destroy
 
-  THEMES = %w[base cute retro].freeze
+  THEMES = %w[base cute retro dark].freeze
 
   validates :theme, inclusion: { in: THEMES }
 
