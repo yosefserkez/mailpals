@@ -64,14 +64,22 @@
     color: #ffffff !important;
 }
 
-.theme--dark input[type="checkbox"]:checked::after {
-    content: "✓";
-    color: var(--bg-color);
+.theme--dark input[type="checkbox"] {
+    position: relative;
+    cursor: pointer;
 }
 
-.theme--dark input[type="checkbox"]:checked {
-    background-color: var(--primary-color);
-    color: var(--bg-color);
+.theme--dark input[type="checkbox"]:hover {
+    border-color: var(--primary-color);
+}
+
+.theme--dark input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   color: var(--bg-color);
 }
 
 .theme--dark .bg-gray-200,
