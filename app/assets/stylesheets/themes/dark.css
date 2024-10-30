@@ -73,3 +73,12 @@
     background-color: var(--primary-color);
     color: var(--bg-color);
 }
+
+.theme--dark .bg-gray-200,
+.theme--dark .hover\:bg-gray-300 {
+    background-color: #2d2d2d !important;
+}
+
+.theme--dark .text-gray-700 {
+    color: var(--font-color) !important;
+}
