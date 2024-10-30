@@ -1,0 +1,112 @@
+.theme--dark {
+    --primary-color: #ffffff;
+    --secondary-color: #888888;
+    --font-color: #ffffff;
+    --bg-color: #121212;
+    --secondary-bg-color: #1e1e1e;
+    --tertiary-bg-color: #2d2d2d;
+    --border-color: #333333;
+    --success-color: #4caf50;
+    --danger-color: #f44336;
+    --warning-color: #ff9800;
+    --info-color: #2196f3;
+    --error-color: #f44336;
+    --border-radius: 4px;
+}
+
+.theme--dark {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}
+
+.theme--dark .frame {
+    background-color: #1e1e1e;
+    border: 1px solid #333333;
+}
+
+.theme--dark h1,
+.theme--dark h2,
+.theme--dark h3,
+.theme--dark h4,
+.theme--dark h5,
+.theme--dark p {
+    color: var(--font-color);
+}
+
+.theme--dark input,
+.theme--dark select,
+.theme--dark textarea {
+    background-color: #2d2d2d;
+    color: var(--font-color);
+    border-color: #404040;
+}
+
+.theme--dark input:focus,
+.theme--dark select:focus,
+.theme--dark textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.theme--dark .bg-amber-50 {
+    background-color: var(--secondary-bg-color);
+}
+
+.theme--dark .bg-gray-100,
+.theme--dark .bg-gray-50 {
+    background-color: var(--secondary-bg-color);
+}
+
+.theme--dark .text-gray-700,
+.theme--dark .text-gray-500,
+.theme--dark .text-gray-300 {
+    color: var(--secondary-color);
+}
+
+.theme--dark .hover\:text-gray-700:hover {
+    color: var(--primary-color);
+}
+
+.theme--dark input[type="checkbox"] {
+    position: relative;
+    cursor: pointer;
+}
+
+.theme--dark input[type="checkbox"]:hover {
+    border-color: var(--primary-color);
+}
+
+.theme--dark input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   color: var(--bg-color);
+}
+
+.theme--dark .bg-gray-200,
+.theme--dark .hover\:bg-gray-300 {
+    background-color: var(--tertiary-bg-color);
+}
+
+.theme--dark .text-gray-700 {
+    color: var(--font-color);
+}
+
+.theme--dark [data-dropdown-target="menu"] {
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--border-color);
+}
+
+.theme--dark [data-dropdown-target="menu"] a {
+    color: var(--font-color);
+}
+
+.theme--dark [data-dropdown-target="menu"] a:hover {
+    background-color: var(--tertiary-bg-color);
+}
+
+.theme--dark img[alt="MailPals Logo"] {
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+}

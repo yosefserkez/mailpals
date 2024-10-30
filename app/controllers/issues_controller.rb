@@ -102,6 +102,7 @@ class IssuesController < ApplicationController
   def set_issue
     @issue = Issue.find(params[:id] || params[:issue_id])
     authorize! @issue
+    @club = @issue.club
   end
 
   def issue_params
