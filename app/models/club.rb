@@ -21,7 +21,7 @@ class Club < ApplicationRecord
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
 
   def self.delivery_frequencies
-    { weekly: 7, biweekly: 14, monthly: 28, quarterly: 90, yearly: 365, daily: 1 }
+    { daily: 1, weekly: 7, biweekly: 14, monthly: 28, quarterly: 90, yearly: 365 }
   end
 
   def self.delivery_times
