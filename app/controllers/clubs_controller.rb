@@ -64,6 +64,7 @@ class ClubsController < ApplicationController
         format.turbo_stream { render turbo_stream: [ turbo_stream.replace("content", partial: "form", locals: { club: @club }), turbo_stream.append("flash", partial: "shared/notice", locals: { message: "Theme updated successfully" }) ] }
       else
         format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @club.errors, status: :unprocessable_entity }
         format.turbo_stream { render turbo_stream: turbo_stream.replace("content", partial: "form", locals: { club: @club }) }
       end
     end
