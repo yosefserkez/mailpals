@@ -23,7 +23,7 @@
 
 </head>
 
-<body class="theme--<%= @club&.theme || 'base' %> flex flex-col min-h-full container flex-grow mb-8 mx-auto max-w-2xl p-4">
+<body class="theme--<%= @club&.theme || 'base' %> flex flex-col min-h-full container flex-grow mb-8 mx-auto max-w-2xl p-4 transition-colors duration-1000">
 <turbo-frame id="flash">
   <%= render 'shared/toast' %>
 </turbo-frame>
