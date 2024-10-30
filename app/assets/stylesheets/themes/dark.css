@@ -3,6 +3,9 @@
     --secondary-color: #888888;
     --font-color: #ffffff;
     --bg-color: #121212;
+    --secondary-bg-color: #1e1e1e;
+    --tertiary-bg-color: #2d2d2d;
+    --border-color: #333333;
     --success-color: #4caf50;
     --danger-color: #f44336;
     --warning-color: #ff9800;
@@ -46,22 +49,22 @@
 }
 
 .theme--dark .bg-amber-50 {
-    background-color: #1e1e1e !important;
+    background-color: var(--secondary-bg-color);
 }
 
 .theme--dark .bg-gray-100,
 .theme--dark .bg-gray-50 {
-    background-color: #2d2d2d !important;
+    background-color: var(--secondary-bg-color);
 }
 
 .theme--dark .text-gray-700,
 .theme--dark .text-gray-500,
 .theme--dark .text-gray-300 {
-    color: #888888 !important;
+    color: var(--secondary-color);
 }
 
 .theme--dark .hover\:text-gray-700:hover {
-    color: #ffffff !important;
+    color: var(--primary-color);
 }
 
 .theme--dark input[type="checkbox"] {
@@ -84,24 +87,24 @@
 
 .theme--dark .bg-gray-200,
 .theme--dark .hover\:bg-gray-300 {
-    background-color: #2d2d2d !important;
+    background-color: var(--tertiary-bg-color);
 }
 
 .theme--dark .text-gray-700 {
-    color: var(--font-color) !important;
+    color: var(--font-color);
 }
 
 .theme--dark [data-dropdown-target="menu"] {
-    background-color: #1e1e1e !important;
-    border: 1px solid #333333;
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--border-color);
 }
 
 .theme--dark [data-dropdown-target="menu"] a {
-    color: var(--font-color) !important;
+    color: var(--font-color);
 }
 
 .theme--dark [data-dropdown-target="menu"] a:hover {
-    background-color: #2d2d2d !important;
+    background-color: var(--tertiary-bg-color);
 }
 
 .theme--dark img[alt="MailPals Logo"] {
