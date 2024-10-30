@@ -5,6 +5,10 @@ export default class extends Controller {
     this.element.addEventListener('change', this.submit.bind(this))
   }
 
+  disconnect() {
+    this.element.removeEventListener('change', this.submit.bind(this))
+}
+
   submit() {
     this.element.form.requestSubmit()
     setTimeout(() => window.location.reload(), 100)
