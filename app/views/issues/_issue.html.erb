@@ -9,10 +9,15 @@
           'text-[var(--warning-color)]'
         when issue.sent?
           'text-[var(--info-color)]'
+        else
+          'text-gray-500'
         end %>">
-        <%= 'In Progress' if issue.in_progress? %>
-        <%= 'Upcoming' if issue.upcoming? %>
-        <%= 'Sent' if issue.sent? %>
+        <%= case
+          when issue.in_progress? then 'In Progress'
+          when issue.upcoming? then 'Upcoming'
+          when issue.sent? then 'Sent'
+          else 'Unknown'
+        end %>
       </span>
 
 
