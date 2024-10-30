@@ -20,7 +20,7 @@
           <%= render_sub_options(form, b.object.last[:sub_options]) if b.object.last[:sub_options].present? %>
         <% end %>
       <% elsif [:select, :collection_select, :time_zone_select].include?(option[:field_type]) %>
-        <%= form.send(option[:field_type], key, option[:options], {}, { data: { controller: "theme" } }) if key == :theme %>
+        <%= form.send(option[:field_type], key, option[:options], {}, key == :theme ? { data: { controller: "theme" } } : {}) %>
       <% else %>
         <%= form.send(option[:field_type], key) %>
       <% end %>
