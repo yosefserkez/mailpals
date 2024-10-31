@@ -1,3 +1,13 @@
+<div class="mb-4 flex justify-end gap-2">
+  <span class="text-sm text-gray-500">Sort by:</span>
+  <%= link_to "Next Delivery", clubs_path(sort: 'next_delivery'), 
+      class: "text-sm #{@sort == 'next_delivery' ? 'font-bold' : 'text-gray-500'}" %>
+  <%= link_to "Title", clubs_path(sort: 'title'), 
+      class: "text-sm #{@sort == 'title' ? 'font-bold' : 'text-gray-500'}" %>
+  <%= link_to "Member Count", clubs_path(sort: 'member_count'), 
+      class: "text-sm #{@sort == 'member_count' ? 'font-bold' : 'text-gray-500'}" %>
+</div>
+
 <div class="grid gap-4 md:grid-cols-2 h-full">
   <%= link_to new_club_path, class: "frame button outline p-4 flex flex-col items-center justify-center" do %>
     <p class="flex items-center"> <%= icon 'plus', class: 'w-10' %> Create New Club</p>

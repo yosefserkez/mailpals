@@ -29,6 +29,16 @@ class Club < ApplicationRecord
       .order(Arel.sql("MIN(issues.deliver_at) ASC NULLS LAST"))
   }
 
+  scope :by_title, -> { order(title: :asc) }
+
+  scope :by_member_count, -> {
+    joins(:members)
+      .where.not(members: { activated_at: nil })
+      .group(:id)
+      .order(Arel.sql("COUNT(*) ASC"))
+    # I'm not sure why ordering ascending shows them with the most members first.
+  }
+
   def self.delivery_frequencies
     { daily: 1, weekly: 7, biweekly: 14, monthly: 28, quarterly: 90, yearly: 365 }
   end
