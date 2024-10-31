@@ -36,7 +36,7 @@
 
 
   <div class="mt-6 flex justify-between">
-    <% if @club.persisted? %>
+    <% if club.persisted? %>
       <%= button_tag @club.active? ? "Pause Club" : "Activate", 
           type: "button", 
           class: "button outline #{@club.active? ? 'danger' : 'success'}", 
@@ -52,7 +52,7 @@
   </div>
 <% end %>
 
-<% if @club.persisted? %>
+<% if club.persisted? %>
   <%= render 'shared/modal',
             modal_id: 'delete-club-modal',
             button_classes: '',
@@ -71,14 +71,14 @@
             data: { modal_target: "toggle-club-status-modal" },
             button_classes: 'button minimal',
             button_text: '',
-            title: @club.active? ? 'Pause Club' : 'Activate Club',
+            title: club.active? ? 'Pause Club' : 'Activate Club',
             confirm_button: button_to(
-              @club.active? ? "Pause Club" : "Activate Club",
-              club_path(@club),
+              club.active? ? "Pause Club" : "Activate Club",
+              club_path(club),
               method: :patch,
-              class: "button #{@club.active? ? 'warning' : 'success'}",
+              class: "button #{club.active? ? 'warning' : 'success'}",
               form: { data: { turbo: false } },
-              params: { club: { active: !@club.active } }
+              params: { club: { active: !club.active } }
             ) do %>
     <% if @club.active? %>
       <p>Are you sure you want to pause this club?</p>
