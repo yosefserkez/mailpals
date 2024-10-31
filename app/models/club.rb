@@ -22,6 +22,12 @@ class Club < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :by_next_delivery, -> {
+    joins("LEFT JOIN issues ON issues.club_id = clubs.id AND issues.sent_at IS NULL")
+      .select("clubs.*, MIN(issues.deliver_at) as next_delivery")
+      .group("clubs.id")
+      .order(Arel.sql("MIN(issues.deliver_at) ASC NULLS LAST"))
+  }
 
   def self.delivery_frequencies
     { daily: 1, weekly: 7, biweekly: 14, monthly: 28, quarterly: 90, yearly: 365 }

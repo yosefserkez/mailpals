@@ -7,7 +7,7 @@ class ClubsController < ApplicationController
 
   # GET /clubs or /clubs.json
   def index
-    @active_clubs = authorized_scope(Club.active)
+    @active_clubs = authorized_scope(Club.active.by_next_delivery)
     @inactive_clubs = authorized_scope(Club.inactive)
   end
 
