@@ -31,7 +31,7 @@
         content: render('comments/form', comment: Comment.new, answer: answer, question: answer.issue_question.prompt, response: answer.content),
         open_on_connect: params[:comment_on] == answer.id.to_s %>
     </div>
-    <div id="comments-<%= answer.id %>" class="<%= comments_hidden %> pl-4 border-l-2 mt-2 space-y-2" data-toggle-class-target="toggleable">
+    <div id="comments-<%= answer.id %>" class="<%= comments_hidden %> ml-2 pl-4 border-l mt-2 space-y-2" data-toggle-class-target="toggleable">
       <%= render answer.comments.order(created_at: :asc) %>
     </div>
   </div>

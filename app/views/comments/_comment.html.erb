@@ -1,9 +1,9 @@
-<div id="<%= dom_id comment %>"class="p-2 bg-gray-50 text-gray-700 rounded <%= params[:comment] == comment.id.to_s ? 'bg-yellow-200' : '' %>">
-  <p class="text-sm flex justify-between">
-    <span class=" font-medium text-gray-500"><%= comment.member.display_name %></span>     
+<div id="<%= dom_id comment %>" class="p-1.5 bg-gray-50 text-gray-700 rounded text-xs <%= params[:comment] == comment.id.to_s ? 'bg-yellow-200' : '' %>">
+  <p class="flex justify-between">
+    <span class="font-medium text-gray-500"><%= comment.member.display_name %></span>     
     <span class="text-gray-300 text-xs ml-2">
       <%= time_ago_in_words(comment.created_at) %> ago
     </span>
   </p>
-    <%= format_and_sanitize_text(comment.content) %>
+  <%= format_and_sanitize_text(comment.content) %>
 </div>
