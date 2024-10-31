@@ -7,8 +7,11 @@
 
 <% if @inactive_clubs.any? %>
   <div data-controller="disclosure" class="mt-8">
-    <button data-action="disclosure#toggle" data-disclosure-target="button" class="button minimal">
-      <span data-disclosure-target="buttonText">Show Inactive Clubs</span>
+    <button data-action="disclosure#toggle" data-disclosure-target="button" class="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+      <span data-disclosure-target="buttonText">Inactive Clubs</span>
+      <svg data-disclosure-target="icon" class="w-4 h-4 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
     </button>
     <div data-disclosure-target="content" class="hidden">
       <div class="grid gap-4 md:grid-cols-2 h-full mt-4">
