@@ -7,7 +7,7 @@ class ClubsController < ApplicationController
 
   # GET /clubs or /clubs.json
   def index
-    @sort = params[:sort] || 'next_delivery'
+    @sort = params[:sort] || "next_delivery"
     @active_clubs = authorized_scope(Club.active)
     
     @active_clubs = case @sort
