@@ -9,7 +9,7 @@ class Member < ApplicationRecord
   delegate :email, to: :user
 
   # TODO: Positional arguments should be used instead. Breaking change
-  enum role: { member: 0, admin: 1, owner: 2 }
+  enum :role, { member: 0, admin: 1, owner: 2 }
 
   validates :user_id, uniqueness: { scope: :club_id, message: "is already a member of this club" }
   validate :ensure_one_owner, if: :role_changed?
