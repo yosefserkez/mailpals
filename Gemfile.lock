@@ -329,7 +329,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.11)
       io-console (~> 0.5)
-    resend (0.13.0)
+    resend (0.14.0)
       httparty (>= 0.21.0)
     rexml (3.3.9)
     rubocop (1.66.1)
