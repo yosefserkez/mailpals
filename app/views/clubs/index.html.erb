@@ -1,11 +1,11 @@
-<div class="mb-4 flex justify-end gap-2">
-  <span class="text-sm text-gray-500">Sort by:</span>
-  <%= link_to "Next Delivery", clubs_path(sort: 'next_delivery'), 
-      class: "text-sm #{@sort == 'next_delivery' ? 'font-bold' : 'text-gray-500'}" %>
-  <%= link_to "Title", clubs_path(sort: 'title'), 
-      class: "text-sm #{@sort == 'title' ? 'font-bold' : 'text-gray-500'}" %>
-  <%= link_to "Member Count", clubs_path(sort: 'member_count'), 
-      class: "text-sm #{@sort == 'member_count' ? 'font-bold' : 'text-gray-500'}" %>
+<div class="mb-4">
+  <%= form_tag clubs_path, method: :get, class: "flex items-center gap-2", data: { turbo_frame: "_top" } do %>
+    <%= label_tag :sort, "Sort by:", class: "text-sm font-medium" %>
+    <%= select_tag :sort, 
+                  sort_options_for_select(@sort), 
+                  class: "rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
+                  onchange: "this.form.requestSubmit()" %>
+  <% end %>
 </div>
 
 <div class="grid gap-4 md:grid-cols-2 h-full">
@@ -17,15 +17,17 @@
 
 <% if @inactive_clubs.any? %>
   <div data-controller="disclosure" class="mt-8">
-    <button data-action="disclosure#toggle" data-disclosure-target="button" class="flex items-center gap-2 text-gray-600 hover:text-gray-900">
-      <span data-disclosure-target="buttonText">Inactive Clubs</span>
-      <svg data-disclosure-target="icon" class="w-4 h-4 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <button data-action="disclosure#toggle" class="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+      <span>Inactive Clubs</span>
+      <svg data-disclosure-target="icon" 
+           class="w-4 h-4 transition-transform duration-300" 
+           fill="none" 
+           stroke="currentColor" 
+           viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     </button>
-    <div data-disclosure-target="content" 
-         class="transform transition-all duration-300 ease-in-out overflow-hidden"
-         style="height: 0">
+    <div data-disclosure-target="content" class="mt-2">
       <div class="grid gap-4 md:grid-cols-2 h-full mt-4 pb-4">
         <%= render @inactive_clubs %>
       </div>
