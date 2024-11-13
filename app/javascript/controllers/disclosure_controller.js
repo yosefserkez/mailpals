@@ -4,11 +4,14 @@ export default class extends Controller {
   static targets = ["content", "icon"];
 
   toggle() {
+    if (!this.hasContentTarget || !this.hasIconTarget) return;
+
     const content = this.contentTarget;
     const isHidden = content.classList.contains("max-h-0");
+    const maxHeight = isHidden ? `${content.scrollHeight}px` : "0";
 
     content.classList.toggle("max-h-0", !isHidden);
-    content.classList.toggle("max-h-[500px]", isHidden);
+    content.style.maxHeight = maxHeight;
     this.iconTarget.classList.toggle("rotate-180", isHidden);
   }
 

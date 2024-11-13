@@ -17,17 +17,24 @@
 
 <% if @inactive_clubs.any? %>
   <div data-controller="disclosure" class="mt-8">
-    <button data-action="disclosure#toggle" class="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+    <button data-action="disclosure#toggle"
+            class="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            aria-expanded="false"
+            aria-controls="inactive-clubs-panel">
       <span>Inactive Clubs</span>
       <svg data-disclosure-target="icon" 
            class="w-4 h-4 transition-transform duration-300" 
            fill="none" 
            stroke="currentColor" 
-           viewBox="0 0 24 24">
+           viewBox="0 0 24 24"
+           aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     </button>
-    <div data-disclosure-target="content" class="mt-2">
+    <div data-disclosure-target="content" 
+         id="inactive-clubs-panel" 
+         class="mt-2" 
+         role="region">
       <div class="grid gap-4 md:grid-cols-2 h-full mt-4 pb-4">
         <%= render @inactive_clubs %>
       </div>
