@@ -35,7 +35,8 @@ class ClubsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Club not found" }, status: :not_found
   rescue StandardError => e
-    render json: { error: e.message }, status: :internal_server_error
+    error_message = Rails.env.production? ? "An unexpected error occurred" : e.message
+    render json: { error: error_message }, status: :internal_server_error
   end
 
   # GET /clubs/1/edit
