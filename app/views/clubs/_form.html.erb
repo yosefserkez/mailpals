@@ -68,8 +68,7 @@
 
   <%= render 'shared/modal',
             modal_id: 'toggle-club-status-modal',
-            data: { modal_target: "toggle-club-status-modal" },
-            button_classes: 'button minimal',
+            button_classes: '',
             button_text: '',
             title: club.active? ? 'Pause Club' : 'Activate Club',
             confirm_button: button_to(
@@ -77,10 +76,10 @@
               club_path(club),
               method: :patch,
               class: "button #{club.active? ? 'warning' : 'success'}",
-              form: { data: { turbo: false } },
-              params: { club: { active: !club.active } }
+              params: { club: { active: !club.active } },
+              data: { turbo: false }
             ) do %>
-    <% if @club.active? %>
+    <% if club.active? %>
       <p>Are you sure you want to pause this club?</p>
       <p class="text-[var(--warning-color)]">Current Issues will be deleted and no new issues will be generated while paused.</p>
     <% else %>

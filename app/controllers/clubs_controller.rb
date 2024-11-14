@@ -7,7 +7,10 @@ class ClubsController < ApplicationController
 
   # GET /clubs or /clubs.json
   def index
-    @clubs = authorized_scope(Club.all)
+    @sort = params[:sort] || "next_delivery"
+    @active_clubs = authorized_scope(Club.active)
+    @active_clubs = helpers.apply_sort(@active_clubs, @sort)
+    @inactive_clubs = authorized_scope(Club.inactive)
   end
 
   # GET /clubs/1 or /clubs/1.json
@@ -32,7 +35,8 @@ class ClubsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Club not found" }, status: :not_found
   rescue StandardError => e
-    render json: { error: e.message }, status: :internal_server_error
+    error_message = Rails.env.production? ? "An unexpected error occurred" : e.message
+    render json: { error: error_message }, status: :internal_server_error
   end
 
   # GET /clubs/1/edit
@@ -62,21 +66,10 @@ class ClubsController < ApplicationController
       if @club.update(club_params)
         format.html { redirect_to edit_club_url(@club), notice: "Club was successfully updated." }
         format.json { render :show, status: :ok, location: @club }
-        format.turbo_stream {
-          flash.now[:notice] = "Club was successfully updated."
-          render turbo_stream: [
-            turbo_stream.replace("club_form", partial: "form", locals: { club: @club })
-          ]
-        }
       else
         flash.now[:alert] = @club.errors.full_messages.join("<br/>")
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @club.errors, status: :unprocessable_entity }
-        format.turbo_stream {
-          render turbo_stream: [
-            turbo_stream.replace("club_form", partial: "form", locals: { club: @club })
-          ], status: :unprocessable_entity
-        }
       end
     end
   end

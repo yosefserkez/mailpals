@@ -20,6 +20,25 @@ class Club < ApplicationRecord
   after_update :recalculate_issue_dates, if: -> { saved_change_to_delivery_frequency? || saved_change_to_delivery_time? || saved_change_to_delivery_day? || saved_change_to_timezone? }
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
 
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
+  scope :by_next_delivery, -> {
+    joins("LEFT JOIN issues ON issues.club_id = clubs.id AND issues.sent_at IS NULL")
+      .select("clubs.*, MIN(issues.deliver_at) as next_delivery")
+      .group("clubs.id")
+      .order(Arel.sql("MIN(issues.deliver_at) ASC NULLS LAST"))
+  }
+
+  scope :by_title, -> { order(title: :asc) }
+
+  scope :by_member_count, -> {
+    joins(:members)
+      .where.not(members: { activated_at: nil })
+      .group(:id)
+      .order(Arel.sql("COUNT(*) ASC"))
+    # I'm not sure why ordering ascending shows them with the most members first.
+  }
+
   def self.delivery_frequencies
     { daily: 1, weekly: 7, biweekly: 14, monthly: 28, quarterly: 90, yearly: 365 }
   end

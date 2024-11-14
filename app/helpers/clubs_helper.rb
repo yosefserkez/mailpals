@@ -30,6 +30,24 @@ module ClubsHelper
     }
   end
 
+  SORT_OPTIONS = {
+    "next_delivery" => { scope: :by_next_delivery, label: "Next Delivery" },
+    "title" => { scope: :by_title, label: "Title" },
+    "member_count" => { scope: :by_member_count, label: "Member Count" }
+  }.freeze
+
+  def sort_options_for_select(selected)
+    options_for_select(
+      SORT_OPTIONS.map { |key, option| [ option[:label], key ] },
+      selected
+    )
+  end
+
+  def apply_sort(clubs, sort_by)
+    sort_option = SORT_OPTIONS[sort_by] || SORT_OPTIONS["next_delivery"]
+    clubs.public_send(sort_option[:scope])
+  end
+
   private
 
   def create_option(key, field_type, translation_prefix, additional_options = {})
@@ -41,7 +59,7 @@ module ClubsHelper
     }.merge(additional_options)
   end
 
-  def options_for_select(options)
+  def format_select_options(options)
     options.map { |key, value| [ key.capitalize, value ] }
   end
 
