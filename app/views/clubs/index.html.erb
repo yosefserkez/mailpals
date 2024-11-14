@@ -1,11 +1,11 @@
  <%= turbo_frame_tag "clubs" do %>
-  <div class="mb-4 flex items-center justify-between">
-    <%= link_to new_club_path, class: "frame button outline p-4 flex flex-col items-center justify-center", data: { turbo_frame: "_top" } do %>
+  <div class="mb-4 flex flex-col md:grid md:grid-cols-2 md:flex-row md:items-center justify-between gap-8 md:gap-4">
+    <%= link_to new_club_path, class: "frame button outline p-4 flex flex-grow flex-col items-center justify-center", data: { turbo_frame: "_top" } do %>
       <p class="flex items-center"> <%= icon 'plus', class: 'w-10' %> Create New Club</p>
     <% end %>
     <%= form_tag clubs_path, 
         method: :get, 
-        class: "flex items-center gap-2", 
+        class: "flex items-center gap-2 self-end justify-end", 
         data: { 
           controller: "auto-submit",
           action: "change->auto-submit#submit"
