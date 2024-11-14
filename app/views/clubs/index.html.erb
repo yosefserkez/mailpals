@@ -1,14 +1,57 @@
-<div class="grid gap-4 md:grid-cols-2 h-full">
-   <%= link_to new_club_path, class: "frame button outline p-4 flex flex-col items-center justify-center" do %>
-    <p class="flex items-center"> <%= icon 'plus', class: 'w-10' %> Create New Club</p>
+ <%= turbo_frame_tag "clubs" do %>
+  <div class="mb-4 flex items-center justify-between">
+    <%= link_to new_club_path, class: "frame button outline p-4 flex flex-col items-center justify-center", data: { turbo_frame: "_top" } do %>
+      <p class="flex items-center"> <%= icon 'plus', class: 'w-10' %> Create New Club</p>
+    <% end %>
+    <%= form_tag clubs_path, 
+        method: :get, 
+        class: "flex items-center gap-2", 
+        data: { 
+          controller: "auto-submit",
+          action: "change->auto-submit#submit"
+        }  do %>
+      <%= label_tag :sort_by, "Sort by:", class: "text-sm font-medium" %>
+      <%= select_tag :sort_by, 
+          sort_options_for_select,
+          class: "rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+      %>
+    <% end %>
+  </div>
+  <div class="grid gap-4 md:grid-cols-2 h-full">
+    <%= render @active_clubs %>
+  </div>
+
+  <% if @inactive_clubs.any? %>
+    <div data-controller="disclosure" class="mt-8">
+      <button data-action="disclosure#toggle"
+              class="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              aria-expanded="false"
+              aria-controls="inactive-clubs-panel">
+        <span>Inactive Clubs</span>
+        <svg data-disclosure-target="icon" 
+            class="w-4 h-4 transition-transform duration-300" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+            aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      <div data-disclosure-target="content" 
+          id="inactive-clubs-panel" 
+          class="mt-2" 
+          role="region">
+        <div class="grid gap-4 md:grid-cols-2 h-full mt-4 pb-4">
+          <%= render @inactive_clubs %>
+        </div>
+      </div>
+    </div>
   <% end %>
-  <%= render @clubs %>
-</div>
 
-<% if @clubs.empty?%>
-  <p class="text-center text-[var(--secondary-color)]">No clubs</p>
-    <p class="text-center">You haven't created any Clubs. Go to
-      <%= link_to 'New Club', new_club_path, class: "font-bold"%> to create one.
-    </p>
+  <% if @active_clubs.empty?%>
+    <p class="text-center text-[var(--secondary-color)]">No clubs</p>
+      <p class="text-center">You haven't created any Clubs. Go to
+        <%= link_to 'New Club', new_club_path, class: "font-bold"%> to create one.
+      </p>
+    <% end %>
 <% end %>
-

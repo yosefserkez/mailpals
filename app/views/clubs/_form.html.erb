@@ -1,7 +1,7 @@
 <%= form_with(model: club, 
     class: "space-y-6", 
     data: { 
-      controller: "#{club.new_record? ? nil : 'auto-submit'}",
+      controller: "#{club.new_record? ? '' : 'auto-submit'}",
       theme_switcher_target: "form",
       action: "change->auto-submit#submit"
     }) do |form| %>
@@ -48,6 +48,8 @@
           class: "button minimal danger", 
           onclick: "document.querySelector('[data-modal-target=\"delete-club-modal\"]').click()"
           %>
+    <% else %>
+      <%= button_tag "Create Club", type: "submit", class: "button success" %>
     <% end %>
   </div>
 <% end %>

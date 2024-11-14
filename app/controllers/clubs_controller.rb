@@ -7,7 +7,15 @@ class ClubsController < ApplicationController
 
   # GET /clubs or /clubs.json
   def index
-    @clubs = authorized_scope(Club.all)
+    clubs = Club.all
+
+    if params[:sort_by].present? && (sort_option = helpers.sort_options[params[:sort_by]])
+      clubs = clubs.public_send(sort_option[:scope], sort_option[:direction])
+    else
+      clubs = clubs.order(created_at: :desc) # default sort
+    end
+    @active_clubs = clubs.active
+    @inactive_clubs = clubs.inactive
   end
 
   # GET /clubs/1 or /clubs/1.json

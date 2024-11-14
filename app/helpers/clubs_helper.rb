@@ -23,11 +23,33 @@ module ClubsHelper
       title: create_option("title", :text_field, "options"),
       theme: create_option("theme", :select, "options", options: Club::THEMES.map { |theme| [ theme.capitalize, theme ] }, additional_options: { data: { controller: "theme-switcher", theme_switcher_target: "themeSelect", action: "change->theme-switcher#change" } }),
       sections: create_option("sections", :collection_check_boxes, "options", options: section_options),
-      delivery_frequency: create_option("delivery_frequency", :select, "options", options: options_for_select(Club.delivery_frequencies)),
-      delivery_time: create_option("delivery_time", :select, "options", options: options_for_select(Club.delivery_times)),
-      delivery_day: create_option("delivery_day", :select, "options", options: options_for_select(Club.delivery_days)),
+      delivery_frequency: create_option("delivery_frequency", :select, "options", options: format_select_options(Club.delivery_frequencies)),
+      delivery_time: create_option("delivery_time", :select, "options", options: format_select_options(Club.delivery_times)),
+      delivery_day: create_option("delivery_day", :select, "options", options: format_select_options(Club.delivery_days)),
       timezone: create_option("timezone", :time_zone_select, "options", options: ActiveSupport::TimeZone.all.sort, default: Current.user.timezone)
     }
+  end
+
+  def sort_option(key)
+    sort_options[key] || raise("Invalid sort option: #{key}")
+  end
+
+  def sort_options
+    {
+      "next_delivery_asc" => { scope: :by_next_delivery, direction: :asc, label: "Next Delivery (Earliest)" },
+      "next_delivery_desc" => { scope: :by_next_delivery, direction: :desc, label: "Next Delivery (Latest)" },
+      "title_asc" => { scope: :by_title, direction: :asc, label: "Title (A-Z)" },
+      "title_desc" => { scope: :by_title, direction: :desc, label: "Title (Z-A)" },
+      "member_count_asc" => { scope: :by_member_count, direction: :asc, label: "Member Count (Lowest)" },
+      "member_count_desc" => { scope: :by_member_count, direction: :desc, label: "Member Count (Highest)" }
+    }
+  end
+
+  def sort_options_for_select
+    options_for_select(
+      sort_options.map { |key, option| [ option[:label], key ] },
+      params[:sort_by]
+    )
   end
 
   private
@@ -41,7 +63,7 @@ module ClubsHelper
     }.merge(additional_options)
   end
 
-  def options_for_select(options)
+  def format_select_options(options)
     options.map { |key, value| [ key.capitalize, value ] }
   end
 

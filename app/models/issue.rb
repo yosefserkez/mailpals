@@ -15,11 +15,12 @@ class Issue < ApplicationRecord
   after_create :schedule_reminders, :schedule_delivery
   after_update :reschedule_reminders, :reschedule_delivery, if: :saved_change_to_deliver_at?
 
-  scope :not_sent, -> { where("sent_at IS NULL") }
   scope :in_progress, -> { where("open_at < ? AND deliver_at > ? AND sent_at IS NULL", Time.current, Time.current) }
   scope :upcoming, -> { where("open_at > ?", Time.current) }
   scope :sent, -> { where("sent_at IS NOT NULL").order(sent_at: :desc) }
+  scope :unsent, -> { where(sent_at: nil) }
   scope :deliverable, -> { where("deliver_at <= ? AND sent_at IS NULL", Time.current) }
+  scope :chronological, -> { order(:deliver_at) }
 
   def questions
     issue_questions.where(section: "questions")

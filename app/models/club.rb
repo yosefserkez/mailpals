@@ -1,9 +1,11 @@
 class Club < ApplicationRecord
   has_many :issues, dependent: :destroy
   has_many :members, dependent: :destroy
+  has_many :active_members, -> { active }, class_name: "Member"
+  has_many :pending_issues, -> { unsent.chronological }, class_name: "Issue"
+
 
   THEMES = %w[base cute retro dark].freeze
-
   validates :theme, inclusion: { in: THEMES }
 
   validates :title, presence: true
@@ -19,6 +21,32 @@ class Club < ApplicationRecord
   after_update :handle_active_change, if: :saved_change_to_active?
   after_update :recalculate_issue_dates, if: -> { saved_change_to_delivery_frequency? || saved_change_to_delivery_time? || saved_change_to_delivery_day? || saved_change_to_timezone? }
   accepts_nested_attributes_for :members, allow_destroy: true, reject_if: :all_blank
+
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
+
+  # Base scopes for analytics
+  scope :with_member_count, -> {
+    joins(:active_members)
+      .select("clubs.*, COUNT(members.id) as member_count")
+      .group(:id)
+  }
+
+  scope :with_next_delivery, -> {
+    left_joins(:pending_issues)
+      .select("clubs.*, MIN(issues.deliver_at) as next_delivery")
+      .group(:id)
+  }
+
+  # Ordering scopes
+  scope :by_title, ->(direction = :asc) { order(title: direction) }
+  scope :by_member_count, ->(direction = :asc) {
+    with_member_count.order(member_count: direction)
+  }
+  scope :by_next_delivery, ->(direction = :asc) {
+    with_next_delivery
+      .order(Arel.sql("MIN(issues.deliver_at) #{direction.to_s.upcase} NULLS LAST"))
+  }
 
   def self.delivery_frequencies
     { daily: 1, weekly: 7, biweekly: 14, monthly: 28, quarterly: 90, yearly: 365 }
@@ -145,8 +173,8 @@ class Club < ApplicationRecord
   def generate_issues
     return unless active
 
-    current_issue = issues.not_sent.order(deliver_at: :asc).first
-    next_issue = issues.not_sent.order(deliver_at: :asc).second
+    current_issue = issues.unsent.order(deliver_at: :asc).first
+    next_issue = issues.unsent.order(deliver_at: :asc).second
 
     if current_issue.nil?
       open_at = Date.current
@@ -187,7 +215,7 @@ class Club < ApplicationRecord
   end
 
   def update_live_issue
-    issues.not_sent.each do |issue|
+    issues.unsent.each do |issue|
       issue.sections = active_sections
       issue.save!
     end
@@ -238,7 +266,7 @@ class Club < ApplicationRecord
   end
 
   def recalculate_issue_dates
-    issues = self.issues.not_sent.order(deliver_at: :asc)
+    issues = self.issues.unsent.order(deliver_at: :asc)
     issues.each_with_index do |issue, index|
       if index == 0
         issue.update!(deliver_at: calculate_delivery_datetime(issue.open_at))
@@ -256,7 +284,7 @@ class Club < ApplicationRecord
     if active?
       generate_issues
     else
-      issues.not_sent.destroy_all
+      issues.unsent.destroy_all
     end
   end
 end
