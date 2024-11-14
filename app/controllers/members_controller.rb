@@ -1,5 +1,6 @@
 class MembersController < ApplicationController
   layout "club"
+  skip_before_action :authenticate, only: %i[unsubscribe process_unsubscribe]
   before_action :set_club, except: %i[accept deny unsubscribe process_unsubscribe]
   include MembersHelper
 
