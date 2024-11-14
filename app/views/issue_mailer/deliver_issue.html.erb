@@ -30,6 +30,11 @@
         on <strong><%= @issue.club.upcoming_issue.deliver_at.strftime("%B %d, %Y") %></strong>
       </div>
     <% end %>
+
+    <%# if @unsubscribe_token.present? %>
+      <%# <p class="mt-12 text-xs text-gray-500">If you don't want to be a part of the club, you can <%= link_to "remove yourself by clicking here.", unsubscribe_club_url(token: @unsubscribe_token), class: "underline" %></p> %>
+    <%# end %>
+
     <div class="mt-10 text-center">
       <%= link_to root_url do %>
         <%= image_tag 'mailpals_logo_rect.png', alt: 'MailPals Logo', class: 'w-24 mx-auto' %>

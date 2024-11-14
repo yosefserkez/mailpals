@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
+  root "pages#landing"
+
   get  "sign_in", to: "sessions#new"
   post "sign_in", to: "sessions#create"
   get  "sign_up", to: "registrations#new"
@@ -22,7 +24,9 @@ Rails.application.routes.draw do
   post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
   post "accept_invitation/:club_id", to: "members#accept", as: :accept_invitation
   delete "deny_invitation/:club_id", to: "members#deny", as: :deny_invitation
-  root "pages#landing"
+  get "unsubscribe/:token", to: "members#unsubscribe", as: :unsubscribe_club
+  delete "unsubscribe/:token", to: "members#process_unsubscribe", as: :process_unsubscribe
+
   resources :clubs do
     get "random_question", on: :member
     resources :members do

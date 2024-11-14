@@ -13,6 +13,7 @@ class IssueMailer < ApplicationMailer
     @issue = issue
     @club = issue.club
     @answers = @issue.enabled_answers.where(member: @club.visible_members(@member))
+    @unsubscribe_token = @member.generate_token_for(:club_unsubscribe)
     mail to: @member.email, subject: "#{@club.title}"
   end
 end

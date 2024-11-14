@@ -2,6 +2,10 @@ class Member < ApplicationRecord
   belongs_to :user
   belongs_to :club
 
+  generates_token_for :club_unsubscribe, expires_in: 30.days do
+    user_email
+  end
+
   has_many :hidden_member_relations, class_name: "HiddenMember", foreign_key: "hider_id", dependent: :destroy
   has_many :hidden_members, through: :hidden_member_relations, source: :hidden
   accepts_nested_attributes_for :hidden_member_relations, allow_destroy: true, reject_if: :all_blank

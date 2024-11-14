@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
   layout "club"
-  before_action :set_club, except: %i[accept deny]
+  before_action :set_club, except: %i[accept deny unsubscribe process_unsubscribe]
   include MembersHelper
 
   # GET /members or /members.json
@@ -31,7 +31,8 @@ class MembersController < ApplicationController
       user.name = member_params[:display_name]
       user.password = SecureRandom.base58
     end
-    @member = @club.members.build(user: @user, role: member_params[:role])
+    # Defaulting to active so that the user is automatically begins receiving club communications. A growth decision. Opt-out rather than opt-in. This can safely be changed back to `activated_at: nil` and the user will need to accept the invitation.
+    @member = @club.members.build(user: @user, role: member_params[:role], activated_at: DateTime.current)
 
     respond_to do |format|
       if @member.save
@@ -93,6 +94,21 @@ class MembersController < ApplicationController
     redirect_to clubs_path, notice: "Invitation denied"
   end
 
+  def unsubscribe
+    @member = Member.find_by_token_for!(:club_unsubscribe, params[:token])
+    @club = @member.club
+    unless @member
+      redirect_to root_path, alert: "Invalid or expired unsubscribe link."
+    end
+    render layout: "application"
+  end
+
+  def process_unsubscribe
+    @member = Member.find_by_token_for!(:club_unsubscribe, params[:token])
+    @member.destroy
+    redirect_to root_path, notice: "You have been unsubscribed from the club."
+  end
+
   def destroy
     @member = @club.members.find(params[:id])
     @member.destroy!
@@ -136,7 +152,7 @@ class MembersController < ApplicationController
   end
 
   def send_invitation(member, club)
-    UserMailer.with(inviter: club.membership(current_user), user: member.user, club: club).invitation_instructions.deliver_later
+    UserMailer.with(inviter: club.membership(current_user), member: member, club: club).invitation_instructions.deliver_later
     member.update(invitation_sent_at: DateTime.current)
   end
 end

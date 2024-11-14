@@ -14,12 +14,13 @@ class UserMailer < ApplicationMailer
   end
 
   def invitation_instructions
-    @user = params[:user]
+    @user = params[:member].user
     @club = params[:club]
     @inviter = params[:inviter]
+    @unsubscribe_token = params[:member].generate_token_for(:club_unsubscribe)
     @signed_id = @user.generate_token_for(:password_reset)
 
-    mail to: @user.email, subject: "Invitation instructions"
+    mail(to: @user.email, subject: "Welcome to #{@club.title}!")
   end
 
   def platform_updates(user, update_content)

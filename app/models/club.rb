@@ -198,6 +198,10 @@ class Club < ApplicationRecord
     members.select { |m| member.can_see?(m) }
   end
 
+  def next_delivery_date
+    issues.unsent.order(deliver_at: :asc).first.deliver_at
+  end
+
   private
 
   def set_defaults
@@ -235,8 +239,6 @@ class Club < ApplicationRecord
 
     d_day
   end
-
-  private
 
   # Adjust the date to the correct day of the week
   # If the date is not on the correct day of the week, look back up to 4 days to find the correct day

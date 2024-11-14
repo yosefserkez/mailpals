@@ -2,7 +2,7 @@
 class InvitationMailerPreview < ActionMailer::Preview
     def deliver_invitation
         create_fixtures
-        UserMailer.with(user: @user, club: @club, inviter: @inviter).invitation_instructions
+        UserMailer.with(member: @member, club: @club, inviter: @inviter).invitation_instructions
     end
 
     private
@@ -10,6 +10,7 @@ class InvitationMailerPreview < ActionMailer::Preview
     def create_fixtures
         @club = Club.first
         @inviter = @club.members.first.user
-        @user = User.last
+        @club.members.create(user: User.last, display_name: "Test Member")
+        @member = Member.last
     end
 end

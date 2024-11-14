@@ -1,26 +1,36 @@
 <div class="md:max-w-2xl md:mx-auto pt-15 overflow-auto">
   <div class="w-full md:max-w-[650px] md:mx-auto mb-8 overflow-visible">
     <h1 class="text-2xl my-1"><%= @club.title %></h1>
-    <h3 class="text-lg">Invitation to Join</h3>
+    <h3 class="text-lg">Welcome to the club!</h3>
     <hr class="my-1">
 
     <p class="mt-5">Hey there,</p>
 
-    <p class="mt-5"><%= @inviter.name || "Someone" %> wants to be Mail Pals with you and invited you to join <b><%= @club.title %></b>!</p>
+    <p class="mt-5">Your pal <%= @inviter.name || "" %> has added you to the club <b><%= @club.title %></b> with <%= pluralize(@club.members.count - 1, 'other member') %>!</p>
+    <p class="mt-5">We're excited to have you join the club and can't wait to see what you'll contribute!</p>
 
     <% if @user.verified? %>
-      <p class="mt-5">You can accept the invitation to join the club by clicking the link below.</p>
+      <p class="mt-5">You can view the club by clicking the link below.</p>
       <div class="mt-5 text-center">
-        <%= link_to "Accept invitation", club_url(@club), class: "underline" %>
+        <%= link_to "View club", club_url(@club), class: "underline" %>
       </div>
     <% else %>
-      <p class="mt-5">You can set your password and accept the invitation by clicking the link below.</p>
-      <div class="mt-5 text-center">
-        <%= link_to "Set password and accept invitation", edit_identity_password_reset_url(sid: @signed_id), class: "button underline" %>
+      <p class="mt-5">To get started set your MailPals password by clicking the link below.</p>
+      <div class="my-4 text-center">
+        <%= link_to "Set password", edit_identity_password_reset_url(sid: @signed_id), class: "button underline" %>
       </div>
     <% end %>
 
-    <p class="mt-5">If you don't want to accept the invitation, please ignore this email.</p>
+    <p class="mt-5">Club members: 
+      <span class="text-sm text-wrap">
+        <%= @club.members.where.not(id: params[:member].id).pluck(:display_name).join(', ').html_safe %>
+      </span>
+    </p>
+
+    <p class="mt-5">Next Issue: <span class="text-sm"><%= @club.next_delivery_date.strftime("%A, %B %d") %></span></p>
+
+
+    <p class="mt-12 text-xs text-gray-500">If you don't want to be a part of the club, you can <%= link_to "remove yourself by clicking here.", unsubscribe_club_url(token: @unsubscribe_token), class: "underline" %></p>
 
     <div class="mt-10 text-center">
       <%= link_to root_url do %>
