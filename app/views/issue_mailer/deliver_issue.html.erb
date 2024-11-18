@@ -31,9 +31,9 @@
       </div>
     <% end %>
 
-    <%# if @unsubscribe_token.present? %>
-      <%# <p class="mt-12 text-xs text-gray-500">If you don't want to be a part of the club, you can <%= link_to "remove yourself by clicking here.", unsubscribe_club_url(token: @unsubscribe_token), class: "underline" %></p> %>
-    <%# end %>
+    <% if @unsubscribe_token&.present? %>
+      <p class="mt-12 text-xs text-gray-500">If you don't want to be a part of the club, you can <%= link_to "remove yourself by clicking here.", unsubscribe_club_url(token: @unsubscribe_token), class: "underline" %></p>
+    <% end %>
 
     <div class="mt-10 text-center">
       <%= link_to root_url do %>
