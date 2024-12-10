@@ -13,7 +13,7 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    redirect_to club_issue_path(@issue.club, @issue), notice: "Cannot edit an issue that has already been sent" if @issue.sent?
+    flash.now[:alert] = "This issue email has already been sent. Any updates will only be reflected on the Mailpals website."
     @sqa = @issue.sections_questions_answers(@member)
   end
 
