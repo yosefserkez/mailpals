@@ -13,7 +13,7 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    flash.now[:alert] = "This issue email has already been sent. Any updates will only be reflected on the Mailpals website."
+    flash.now[:alert] = "This issue email has already been sent. Any updates will only be reflected on the Mailpals website." if @issue.sent?
     @sqa = @issue.sections_questions_answers(@member)
   end
 
