@@ -68,7 +68,7 @@
   <% end %>
 
   <%= component 'section', id: 'faq', title: 'FAQ' do %>
-    <div class="space-y-6">
+    <div class="space-y-6 text-center">
       <div>
         <h3 class="text-xl font-bold mb-2">What is MailPals and how does it work?</h3>
         <p>MailPals is a fun way to have a group newsletter without the work. You pick the questions for your group to answer, then MailPals creates a fun and beautiful newsletter with everyone's replies. All you need is to do is invite your people!</p>
@@ -85,6 +85,16 @@
         <h3 class="text-xl font-bold mb-2">How do I respond to someone's answer?</h3>
         <p>MailPals is all about connecting with your people, so don't be shy about reaching out to them. The intention is to open up conversations and keep relationships strong. You are encouraged to reach out to your pals with the medium of your choice, be it email, phone, or in person to continue the conversation!</p>
       </div>
+    </div>
+  <% end %>
+
+  <%= component 'section', id: 'open-source', title: 'Open Source' do %>
+    <div class="text-center">
+      <p class="mb-4">MailPals is open source and available on GitHub.</p>
+      <%= link_to "https://github.com/yosefserkez/mailpals", target: "_blank", class: "inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700" do %>
+        <%= icon 'github', class: 'w-5 h-5' %>
+        <span>View on GitHub</span>
+      <% end %>
     </div>
   <% end %>
 </div>
