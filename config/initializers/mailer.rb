@@ -1,1 +1,1 @@
-Resend.api_key = "re_PYdomVJS_9Qw8B9gFCrywgw1p62KBGxy4"
+Resend.api_key = ENV.fetch('RESEND_API_KEY') { raise 'Missing RESEND_API_KEY environment variable' }
