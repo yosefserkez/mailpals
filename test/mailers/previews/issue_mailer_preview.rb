@@ -8,7 +8,7 @@ class IssueMailerPreview < ActionMailer::Preview
     private
 
     def create_fixtures
-        @issue = Issue.find(19)
+        @issue = Issue.find(58)
         @club = @issue.club
         @member = @club.members.first
         @user = @member.user

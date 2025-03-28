@@ -1,44 +1,135 @@
-<div class="theme--<%= @issue.club.theme || 'base' %> md:max-w-2xl md:mx-auto pt-15 overflow-auto">
-  <div class="w-full md:max-w-[650px] md:mx-auto mb-8 overflow-visible">
-    <h1 class="my-1"><%= @issue.club.title %></h1>
-    <h3 class=""><%= @issue.title %> | <%= @issue.deliver_at.strftime("%B %d, %Y") %></h3>
-    <hr class="my-1">
-    <p class="text-sm m-0 secondary-color">Made by <%= @issue.club.members.active.pluck(:display_name).to_sentence %></p>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= @issue.club.title %> - <%= @issue.title %></title>
+  <style type="text/css">
+    /* Base styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    img {
+      border: 0;
+      display: block;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+    table {
+      border-collapse: collapse !important;
+    }
+    td {
+      padding: 0;
+    }
+    .theme--base {
+      color: #333333;
+      background-color: #ffffff;
+    }
+    .secondary-color {
+      color: #666666;
+    }
+    @media only screen and (max-width: 480px) {
+      .main-table {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f7f7f7;">
+  <!-- Outer wrapper table -->
+  <table class="theme--<%= @issue.club.theme || 'base' %>" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #f7f7f7;">
+    <tr>
+      <td align="center" valign="top" style="padding: 20px 0;">
+        <!-- Main content table -->
+        <table class="main-table" width="650" cellpadding="0" cellspacing="0" border="0" style="max-width: 650px; width: 100%; background-color: #ffffff; margin: 0 auto;">
+          <tr>
+            <td align="left" valign="top" style="padding: 25px;">
+              <!-- Header -->
+              <h1 style="margin: 5px 0; font-size: 24px; color: #333333;"><%= @issue.club.title %></h1>
+              <h3 style="margin: 5px 0; font-size: 18px; color: #333333;"><%= @issue.title %> | <%= @issue.deliver_at.strftime("%B %d, %Y") %></h3>
+              <hr style="border: 0; height: 1px; background-color: #e2e2e2; margin: 5px 0;">
+              <p style="margin: 0; font-size: 14px; color: #666666;">Made by <%= @issue.club.members.active.pluck(:display_name).to_sentence %></p>
 
-    <% @issue.sections_questions_answers(nil, @issue.club.visible_members(@member || @issue.club.membership(current_user))).each do |section| %>
-      <div class="mt-10">
-        <% if section[:key] != "questions" %>
-          <h3 class="font-semibold"><%= t("clubs.sections.#{section[:key]}.title") %></h3>
-        <% end %>
+              <!-- Content -->
+              <% @issue.sections_questions_answers(nil, @issue.club.visible_members(@member || @issue.club.membership(current_user))).each do |section| %>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 30px;">
+                  <tr>
+                    <td>
+                      <% if section[:key] != "questions" %>
+                        <h3 style="font-size: 18px; font-weight: 600; margin: 10px 0; color: #333333;"><%= t("clubs.sections.#{section[:key]}.title") %></h3>
+                      <% end %>
 
-        <% section[:questions].each do |qa| %>
-          <div class="">
-            <% if qa[:question].section == "questions" %>
-              <h3 class="font-semibold"><%= qa[:question].prompt %></h3>
-            <% end %>
-            <div class="flex flex-col space-y-4 mt-4">
-              <%= render qa[:answers].reject(&:unanswered?) %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+                      <% section[:questions].each do |qa| %>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+                          <tr>
+                            <td>
+                              <% if qa[:question].section == "questions" %>
+                                <h3 style="font-size: 18px; font-weight: 600; margin: 10px 0; color: #333333;"><%= qa[:question].prompt %></h3>
+                              <% end %>
+                              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px;">
+                                <tr>
+                                  <td style="margin-bottom: 20px;">
+                                    <%= render qa[:answers].reject(&:unanswered?) %>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      <% end %>
+                    </td>
+                  </tr>
+                </table>
+              <% end %>
 
-    <% if @issue.club.upcoming_issue.present? %>
-      <div class="mt-10 text-center">
-        The next issue of <a href="<%= club_url(@issue.club) %>" class="italic underline underline-offset-2"><%= @issue.club.title %></a> will be delivered
-        on <strong><%= @issue.club.upcoming_issue.deliver_at.strftime("%B %d, %Y") %></strong>
-      </div>
-    <% end %>
+              <!-- Upcoming issue -->
+              <% if @issue.club.upcoming_issue.present? %>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 30px;">
+                  <tr>
+                    <td align="center">
+                      <p style="margin: 10px 0; color: #333333;">
+                        The next issue of <a href="<%= club_url(@issue.club) %>" style="color: #3366CC; font-style: italic; text-decoration: underline;"><%= @issue.club.title %></a> will be delivered
+                        on <strong><%= @issue.club.upcoming_issue.deliver_at.strftime("%B %d, %Y") %></strong>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              <% end %>
 
-    <% if @unsubscribe_token&.present? %>
-      <p class="mt-12 text-xs text-gray-500">If you don't want to be a part of the club, you can <%= link_to "remove yourself by clicking here.", unsubscribe_club_url(token: @unsubscribe_token), class: "underline" %></p>
-    <% end %>
+              <!-- Unsubscribe -->
+              <% if @unsubscribe_token&.present? %>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 40px;">
+                  <tr>
+                    <td>
+                      <p style="margin: 0; font-size: 12px; color: #999999;">
+                        If you don't want to be a part of the club, you can 
+                        <a href="<%= unsubscribe_club_url(token: @unsubscribe_token) %>" style="color: #3366CC; text-decoration: underline;">remove yourself by clicking here.</a>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              <% end %>
 
-    <div class="mt-10 text-center">
-      <%= link_to root_url do %>
-        <%= image_tag 'mailpals_logo_rect.png', alt: 'MailPals Logo', class: 'w-24 mx-auto' %>
-      <% end %>
-    </div>
-  </div>
-</div>
+              <!-- Footer -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 30px;">
+                <tr>
+                  <td align="center">
+                    <a href="<%= root_url %>" style="text-decoration: none; color: #333333;">
+                      <img src="<%= image_url('mailpals_logo_rect.png') %>" alt="MailPals Logo" width="96" style="width: 96px; max-width: 96px; margin: 0 auto;" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

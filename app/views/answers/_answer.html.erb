@@ -1,6 +1,6 @@
 <% comments_hidden = params[:answer] == answer.id.to_s ? '' : 'hidden' %>
 
-<div id="answer-<%= answer.id %>">
+<div id="answer-<%= answer.id %>" class="my-2">
   <% if answer.images.attached? %>
     <% answer.images.each do |image| %>
       <div class="mt-5 border-[var(--primary-color)] overflow-hidden">
