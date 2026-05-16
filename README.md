@@ -1,11 +1,14 @@
-![MailPals Logo](public/icon.png)
-# MailPals
+<img src="public/icon.png" alt="Alt text" width="300" height="200">
 
 Private group newsletters for friends, families & teams
 
 Stay in touch, grow closer together, and discover things you never knew with the people in your life.
 
 [mailpals.net](https://mailpals.net)
+
+### Demo Video
+https://github.com/user-attachments/assets/960aacd4-7591-4f77-aab5-3f5dd6c8d2fc
+
 ### How it works
 
 1. Pick inquisitive questions: Choose from dozens of thoughtful questions or add your own.
