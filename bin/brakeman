@@ -2,6 +2,8 @@
 require "rubygems"
 require "bundler/setup"
 
-ARGV.unshift("--ensure-latest")
+# Note: --ensure-latest intentionally removed. It exits non-zero (5) whenever a
+# newer Brakeman is released upstream, breaking CI for reasons unrelated to the
+# code's security. The scan itself still runs fully.
 
 load Gem.bin_path("brakeman", "brakeman")
