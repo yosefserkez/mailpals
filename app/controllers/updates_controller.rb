@@ -14,7 +14,9 @@ class UpdatesController < ApplicationController
   end
 
   def show
-    @update = File.read(Rails.root.join("public", "updates", "#{params[:id]}.md"))
-    @update_date = File.mtime(Rails.root.join("public", "updates", "#{params[:id]}.md"))
+    # Sanitize to a bare filename so params[:id] can't traverse out of public/updates.
+    path = Rails.root.join("public", "updates", "#{File.basename(params[:id])}.md")
+    @update = File.read(path)
+    @update_date = File.mtime(path)
   end
 end

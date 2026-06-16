@@ -1,6 +1,6 @@
 class IssueQuestionsController < ApplicationController
   before_action :set_issue
-  before_action :set_issue_question, only: [:edit, :update, :destroy]
+  before_action :set_issue_question, only: [ :edit, :update, :destroy ]
 
   # GET /issue_questions or /issue_questions.json
   def index
@@ -30,7 +30,7 @@ class IssueQuestionsController < ApplicationController
       if @issue_question.save
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.append("issue-questions", partial: "issue_questions/issue_question", locals: { issue_question: @issue_question }),
+            turbo_stream.append("issue-questions", partial: "issue_questions/issue_question", locals: { issue_question: @issue_question })
           ]
         end
         format.html { redirect_to club_issue_issue_questions_path(@club, @issue), notice: "Issue question was successfully created." }
@@ -46,7 +46,7 @@ class IssueQuestionsController < ApplicationController
   # PATCH/PUT /issue_questions/1 or /issue_questions/1.json
   def update
     if @issue_question.update(issue_question_params)
-      redirect_to issue_issue_questions_path(@issue), notice: 'Question was successfully updated.'
+      redirect_to issue_issue_questions_path(@issue), notice: "Question was successfully updated."
     else
       render :edit
     end

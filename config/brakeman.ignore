@@ -1,0 +1,33 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "0b4dbaedb7fcc888f09c2804ee5e91de9fb2a8c19e26d7715ba3ade0818859c3",
+      "note": "Reviewed false positive: render target derived from scoped AR lookups."
+    },
+    {
+      "fingerprint": "2e6b9c381bd8f820e7353573d07891e78d6a917be98866549a564b3c2e3352e5",
+      "note": "Reviewed false positive: render target derived from scoped AR lookups."
+    },
+    {
+      "fingerprint": "38d1a8550dba28d4a3ae372316a363942cd98ea2642b1e1c20c65012f06a350b",
+      "note": "Reviewed: role is set via policy-gated admin actions; intended."
+    },
+    {
+      "fingerprint": "3b88e17a681092dc80b3f2592f5654b061ac0a7ab01441b15b122dd5e0d520d1",
+      "note": "Reviewed false positive: render target derived from scoped AR lookups."
+    },
+    {
+      "fingerprint": "6404463ad82a108937124303bc6f680995ac06479371359804da3e8243c55787",
+      "note": "Reviewed: params[:id] sanitized with File.basename before use."
+    },
+    {
+      "fingerprint": "a5cf98a634ad4b1820ded42da8b84c08ed0d12e85a2368bdd0933719afe89dd0",
+      "note": "Reviewed false positive: render target derived from scoped AR lookups."
+    },
+    {
+      "fingerprint": "ddf1cbf7e8599a358b2ea790b965a0866a35cdc25db3f0df6ae19fcc1e6a6d96",
+      "note": "Reviewed: direction comes from a server-side sort_options whitelist, not raw params."
+    }
+  ],
+  "brakeman_version": null
+}

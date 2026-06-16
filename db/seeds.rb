@@ -681,7 +681,7 @@ end
 
 if Rails.env.development?
   create_questions(QUESTIONS) unless Question.count > 0
-  
+
   # Create test users
   users = [
     {
@@ -752,14 +752,14 @@ if Rails.env.development?
       member.activated_at = Time.current
     end
   end
- 
+
   # Create a past issue
   past_issue = Issue.find_or_create_by!(
     club: book_lovers,
     open_at: 2.weeks.ago,
     deliver_at: 2.weeks.ago,
     sent_at: 2.weeks.ago,
-    sections: ["questions"]
+    sections: [ "questions" ]
   )
 
   # Generate questions for the issue
@@ -775,7 +775,7 @@ if Rails.env.development?
       member: member,
       content: "This is #{member.display_name}'s answer to the book club question."
     )
-    
+
     # Add comments from other members on each answer, spaced 12 hours apart
     members.each_with_index do |commenter, index|
       next if commenter == member # Skip commenting on own answer

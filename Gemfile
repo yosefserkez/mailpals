@@ -76,9 +76,9 @@ gem "omniauth"
 gem "action_policy"
 gem "resend"
 gem "mission_control-jobs"
-gem 'premailer-rails'
+gem "premailer-rails"
 gem "rails_icons"
 gem "aws-sdk-s3", require: false
-gem 'rails_autolink'
+gem "rails_autolink"
 
-gem 'redcarpet'
+gem "redcarpet"
