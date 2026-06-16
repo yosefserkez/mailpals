@@ -39,5 +39,13 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H 5.78.82.33 >> ~/.ssh/known_hosts 2>/dev/null
 
+      - name: Materialize secrets for Kamal (.env + master.key)
+        run: |
+          printf '%s' "$RAILS_MASTER_KEY" > config/master.key
+          {
+            printf 'KAMAL_REGISTRY_PASSWORD=%s\n' "$KAMAL_REGISTRY_PASSWORD"
+            printf 'RESEND_API_KEY=%s\n'          "$RESEND_API_KEY"
+          } > .env
+
       - name: Deploy with Kamal
         run: bundle exec kamal deploy
