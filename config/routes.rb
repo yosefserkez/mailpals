@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  # Canonical domain: permanently redirect legacy (.cc) and www hosts to
+  # https://mailpals.net, preserving the full path and query string.
+  constraints(host: /\A(mailpals\.cc|www\.mailpals\.cc|www\.mailpals\.net)\z/) do
+    match "(*path)", via: :all, to: redirect(status: 301) { |_params, request|
+      "https://mailpals.net#{request.fullpath}"
+    }
+  end
+
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
   root "pages#landing"
