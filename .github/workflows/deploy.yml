@@ -37,7 +37,10 @@ jobs:
           install -m 700 -d ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H 5.78.82.33 >> ~/.ssh/known_hosts 2>/dev/null
+          # Pin a single, unhashed host key. `ssh-keyscan -H` emits several
+          # key types in nondeterministic order, which net-ssh (Kamal's SSH
+          # library) mishandles, causing flaky HostKeyMismatch failures.
+          ssh-keyscan -t ed25519 5.78.82.33 >> ~/.ssh/known_hosts 2>/dev/null
 
       - name: Materialize secrets for Kamal (.env + master.key)
         run: |
